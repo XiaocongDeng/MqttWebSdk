@@ -1,0 +1,291 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Web Camera</title>
+	<script src="jquery/jquery-1.9.1.min.js"></script>
+	<script src="js/check.js"></script>
+
+	<style type="text/css">
+		.fixhei{ height:30px; float:left;};
+		.logindoc{ float:left;width:200px;text-align:right;float:left;}
+		.logininput{ margin-left:20px;float:left;width:200px;float:left; }
+		.bottom { margin:0 auto;width:80px;height:30px;line-height:28px;text-align:center;cursor:pointer;border-radius:4px;color:#fff;background:#007FFB;border-top:2px solid #0C5DF9;border-right:2px solid #0C5DF9;border-left:2px solid #1E90FF;border-bottom:2px solid #1E90FF;}
+		.bottom:active { border-top:2px solid #1E90FF;border-right:2px solid #1E90FF;border-left:2px solid #0C5DF9;border-bottom:2px solid #0C5DF9; }
+		.table{ width:1025px;height:400px;}
+		.box{float:left;height:30px;width:16px;background:url(./images/box.png)0 7px no-repeat;}
+	</style>
+	
+</head>
+
+
+<body>  
+	<div style="width:100%;height:750px;;background:#fff;">
+		<div style="clear:bottom;height:70px;"></div>
+		<div style="width:1025px;height:220px;background:#fff;position:relative;">
+			<div style="clear:bottom;height:30px;"></div>
+			<div style="margin:0 auto;width:740px;height:30px;">
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> Enabled: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<select style="width:84px;height:30px;float:left;"  id="id_Enabled">
+					<option value="0">0</option>
+					<option value="1">1</option>
+				</select>
+				<div style="float:left;width:180px;text-align:right;height:30px;line-height:30px;">Allday Enabled: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<select style="width:84px;height:30px;float:left;"  id="id_AlldayEnabled">
+					<option value="0">0</option>
+					<option value="1">1</option>
+				</select>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> Sensitive: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:54px;height:24px;border-radius:4px;float:left;" value="0" maxlength="3" id="id_Sensitive"> </input>
+			</div>
+			
+			<div style="clear:bottom;height:50px;"></div>
+			<div style="margin-left:100px;width:110px;height:30px;background:#D6EBFF;line-height:26px;">Time Section</div>
+			<div style="clear:bottom;height:30px;"></div>
+			<div style="margin:0 auto;width:600px;height:30px;">
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> Enabled: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<select style="width:84px;height:30px;float:left;"  id="id_TimeSectionEnabled">
+					<option value="0">0</option>
+					<option value="1">1</option>
+				</select>
+			</div>
+			<div style="clear:bottom;height:30px;"></div>
+			<div style="margin-left:50px;width:50px;height:30px;background:#D6EBFF;line-height:26px;">Cycle</div>
+			<div style="clear:bottom;height:10px;"></div>
+			<div style="margin:0 auto;width:970px;height:30px;">
+				<div style="float:left;width:100px;text-align:right;height:30px;line-height:26px;">Monday:</div>
+				<div style="float:left;height:1px;width:20px;"></div>
+				<div class="box" value="0" onclick="OnclickBox(1);" id="id_Box1"></div>
+				<div style="float:left;width:100px;text-align:right;height:30px;line-height:26px;">Tuesday:</div>
+				<div style="float:left;height:1px;width:20px;"></div>
+				<div class="box" value="0" onclick="OnclickBox(2);" id="id_Box2"></div>
+				<div style="float:left;width:100px;text-align:right;height:30px;line-height:26px;">Wednesday:</div>
+				<div style="float:left;height:1px;width:20px;"></div>
+				<div class="box" value="0" onclick="OnclickBox(3);" id="id_Box3"></div>
+				<div style="float:left;width:100px;text-align:right;height:30px;line-height:26px;"> Thursday: </div>
+				<div style="float:left;height:1px;width:20px;"></div>
+				<div class="box" value="0" onclick="OnclickBox(4);" id="id_Box4"></div>
+				<div style="float:left;width:100px;text-align:right;height:30px;line-height:26px;"> Friday: </div>
+				<div style="float:left;height:1px;width:20px;"></div>
+				<div class="box" value="0" onclick="OnclickBox(5);" id="id_Box5"></div>
+				<div style="float:left;width:100px;text-align:right;height:30px;line-height:26px;"> Saturday: </div>
+				<div style="float:left;height:1px;width:20px;"></div>
+				<div class="box" value="0" onclick="OnclickBox(6);" id="id_Box6"></div>
+				<div style="float:left;width:100px;text-align:right;height:30px;line-height:26px;"> Sunday: </div>
+				<div style="float:left;height:1px;width:20px;"></div>
+				<div class="box" value="0" onclick="OnclickBox(7);" id="id_Box7"></div>
+			</div>
+			
+			<div style="clear:bottom;height:50px;"></div>
+			<div style="margin:0 auto;width:700px;height:30px;">
+				<div style="float:left;width:120px;text-align:right;height:30px;line-height:30px;"> Start Time: </div>
+				<div style="float:left;width:20px;text-align:center;height:30px;line-height:26px;"> </div>
+				<input style="width:25px;height:24px;border-radius:4px;float:left;" value="00" maxlength="2" id="id_StartTimeH"></input>
+				<div style="float:left;width:20px;text-align:center;height:30px;line-height:26px;">:</div>
+				<input style="width:25px;height:24px;border-radius:4px;float:left;" value="00" maxlength="2" id="id_StartTimem"></input>
+				<div style="float:left;width:20px;text-align:center;height:30px;line-height:26px;">:</div>
+				<input style="width:25px;height:24px;border-radius:4px;float:left;" value="00" maxlength="2" id="id_StartTimeS"></input>
+				<div style="float:left;width:100px;text-align:center;height:30px;line-height:26px;">————</div>
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> End Time: </div>
+				<div style="float:left;width:20px;text-align:center;height:30px;line-height:26px;"></div>
+				<input style="width:25px;height:24px;border-radius:4px;float:left;" value="00" maxlength="2" id="id_EndTimeH"></input>
+				<div style="float:left;width:20px;text-align:center;height:30px;line-height:26px;">:</div>
+				<input style="width:25px;height:24px;border-radius:4px;float:left;" value="00" maxlength="2" id="id_EndTimem"></input>
+				<div style="float:left;width:20px;text-align:center;height:30px;line-height:26px;">:</div>
+				<input style="width:25px;height:24px;border-radius:4px;float:left;" value="00" maxlength="2" id="id_EndTimeS"></input>
+			</div>
+			
+			<div style="clear:bottom;height:70px;"></div>
+			<div class="bottom" type="bottom" onclick="OnSave()">Submit</div>
+			
+		</div>
+	</div>
+</body>   
+
+<script  type="text/javascript"> 
+function GetParam() {
+	if(parent.demo != undefined && parent.demo != "") {
+		parent.demo.GetMotionDetectionParam();
+	}
+}
+function SetParamToPage(obj) {
+	console.log(JSON.stringify(obj));
+	if(obj.status == 200) {
+		$("#id_Enabled").val(obj.data.enabled);
+		$("#id_Sensitive").val(obj.data.sensitive); 
+		$("#id_AlldayEnabled").val(obj.data.time.alldayenabled);                                                  
+		$("#id_TimeSectionEnabled").val(obj.data.time.timesection.enabled);                                       
+		var cycle = obj.data.time.timesection.cycle;                                                              
+		for(var i = 0; i< 7; i++) {                                                                               
+			SetWeekBox((i+1), ((cycle >> i)&1));                                                                  
+		}                                                                                                         
+		
+		$("#id_StartTimeH").val(obj.data.time.timesection.starttime.substr(0,2));     
+		$("#id_StartTimem").val(obj.data.time.timesection.starttime.substr(2,2));     
+		$("#id_StartTimeS").val(obj.data.time.timesection.starttime.substr(4,2)); 
+		$("#id_EndTimeH").val(obj.data.time.timesection.endtime.substr(0,2));     
+		$("#id_EndTimem").val(obj.data.time.timesection.endtime.substr(2,2));     
+		$("#id_EndTimeS").val(obj.data.time.timesection.endtime.substr(4,2)); 
+	}else {                                                                                                       
+		console.log("ERROR["+obj.status+"]: get param error !");                                                  
+	}                                                                                                             
+}
+function GetStartTimeStr() {
+	if( CheckNum1("id_StartTimeH") != true  ) {
+		alert("Start Hour parameter input error , Only numbers can be entered !");return "null";
+	}
+	if( CheckNum1("id_StartTimem") != true  ) {
+		alert("Start Min parameter input error , Only numbers can be entered !");return "null";
+	}
+	if( CheckNum1("id_StartTimeS") != true  ) {
+		alert("Start Sec parameter input error , Only numbers can be entered !");return "null";
+	}
+	
+	if( parseInt($("#id_StartTimeH").val())>= 24 || parseInt($("#id_StartTimeH").val())<0 ) {
+		alert("Start Hour value is out of range !");return "null";
+	}
+	if( parseInt($("#id_StartTimem").val())>= 60 || parseInt($("#id_StartTimem").val())<0 ) {
+		alert("Start Min value is out of range !");return "null";
+	}
+	if( parseInt($("#id_StartTimeS").val())>= 60 || parseInt($("#id_StartTimeS").val())<0 ) {
+		alert("Start Sec value is out of range !");return "null";
+	}
+	
+	var startTimeStr;
+	if(parseInt($("#id_StartTimeH").val()) < 10) {
+		startTimeStr = "0"+parseInt($("#id_StartTimeH").val());
+	}else {
+		startTimeStr = parseInt($("#id_StartTimeH").val())+"";
+	}
+	if(parseInt($("#id_StartTimem").val()) < 10) {
+		startTimeStr += "0"+parseInt($("#id_StartTimem").val());
+	}else {
+		startTimeStr += parseInt($("#id_StartTimem").val())+"";
+	}
+	if(parseInt($("#id_StartTimeS").val()) < 10) {
+		startTimeStr += "0"+parseInt($("#id_StartTimeS").val());
+	}else {
+		startTimeStr += parseInt($("#id_StartTimeS").val())+"";
+	}
+	
+	return startTimeStr+"";
+}
+function GetEndTimeStr() {
+	if( CheckNum1("id_EndTimeH") != true  ) {
+		alert("End Hour parameter input error , Only numbers can be entered !");return "null" ;
+	}
+	if( CheckNum1("id_EndTimem") != true  ) {
+		alert("End Min parameter input error , Only numbers can be entered !");return "null";
+	}
+	if( CheckNum1("id_EndTimeS") != true  ) {
+		alert("End Sec parameter input error , Only numbers can be entered !");return "null";
+	}
+	
+	if( parseInt($("#id_EndTimeH").val())>= 24 || parseInt($("#id_EndTimeH").val())<0 ) {
+		alert("End Hour value is out of range !");return "null";
+	}
+	if( parseInt($("#id_EndTimem").val())>= 60 || parseInt($("#id_EndTimem").val())<0 ) {
+		alert("End Min value is out of range !");return "null";
+	}
+	if( parseInt($("#id_EndTimeS").val())>= 60 || parseInt($("#id_EndTimeS").val())<0 ) {
+		alert("End Sec value is out of range !");return "null";
+	}
+	
+	var endTimeStr;
+	if($("#id_EndTimeH").val() < 10) {
+		endTimeStr = "0"+parseInt($("#id_EndTimeH").val());
+	}else {
+		endTimeStr = parseInt($("#id_EndTimeH").val())+"";
+	}
+	if($("#id_EndTimem").val() < 10) {
+		endTimeStr += "0"+parseInt($("#id_EndTimem").val());
+	}else {
+		endTimeStr += parseInt($("#id_EndTimem").val())+"";
+	}
+	if($("#id_EndTimeS").val() < 10) {
+		endTimeStr += "0"+parseInt($("#id_EndTimeS").val());
+	}else {
+		endTimeStr += parseInt($("#id_EndTimeS").val())+"";
+	}	
+	return endTimeStr+"";
+}
+
+function OnSave(operation) {
+	
+	var cycle = 0;
+	for(var i = 1; i< 8; i++) {                                                                               
+		if(1 == document.getElementById("id_Box"+i).getAttribute("value")) {
+			cycle += 1<<(i-1);
+		}
+	}
+	
+	if( CheckNum("id_Sensitive") != true  ) {
+		alert("Sensitive parameter input error , Only numbers can be entered !");return ;
+	}
+	if( parseInt($("#id_Sensitive").val()) > 100 || parseInt($("#id_EndTimem").val())<0 ) {
+		alert("Sensitive value is out of range (0 ~ 100) !");return ;
+	}
+
+	if(GetStartTimeStr() == "null" || GetEndTimeStr() == "null") {
+		return false;
+	}
+	var data = {
+		"enabled": $("#id_Enabled").val(),
+		"sensitive" : parseInt($("#id_Sensitive").val()),
+		"time": {
+			"alldayenabled": $("#id_AlldayEnabled").val(),
+			"timesection": {
+				"enabled": $("#id_TimeSectionEnabled").val(),
+				"cycle": cycle,
+				"starttime": GetStartTimeStr(),
+				"endtime": GetEndTimeStr()
+			}
+		}
+	};
+	//console.log(JSON.stringify(data));
+	if(parent.demo != undefined && parent.demo != "") {
+		parent.demo.SetMotionDetectionParam(data);
+	} else {
+		console.log("Not connected to the server or disconnected from the server !");
+		return ;
+	}
+}
+$(function() {
+	var status = parent.demo.GetDeviceStatus();
+	if(status == "online") {
+		GetParam();
+	} else {
+		alert("Please log on the device first !");
+	}
+
+});
+
+function OnclickBox(index) {
+	var tmpValue = document.getElementById("id_Box"+index).getAttribute("value");
+	console.log("index == " + index+', '+tmpValue);
+	if(0 == tmpValue) {
+		document.getElementById("id_Box"+index).setAttribute("value",1);
+		$("#id_Box"+index).css("background","url(./images/boxselect.png)0 7px no-repeat");
+	}else if(1 == tmpValue) {
+		document.getElementById("id_Box"+index).setAttribute("value",0);
+		$("#id_Box"+index).css("background","url(./images/box.png)0 7px no-repeat");
+	}
+}
+function SetWeekBox(index, value) {
+	if(0 == value) {
+		document.getElementById("id_Box"+index).setAttribute("value",0);
+		$("#id_Box"+index).css("background","url(./images/box.png)0 7px no-repeat");
+	}else if(1 == value) {
+		document.getElementById("id_Box"+index).setAttribute("value",1);
+		$("#id_Box"+index).css("background","url(./images/boxselect.png)0 7px no-repeat");
+	}
+}
+
+</script> 
+
+</html>  

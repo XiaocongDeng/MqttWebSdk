@@ -1,0 +1,189 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Web Camera</title>
+	<script src="jquery/jquery-1.9.1.min.js"></script>
+	<script src="js/check.js"></script>
+
+	<style type="text/css">
+		.fixhei{ height:30px; float:left;};
+		.logindoc{ float:left;width:200px;text-align:right;float:left;}
+		.logininput{ margin-left:20px;float:left;width:200px;float:left; }
+		.bottom { margin:0 auto;width:80px;height:30px;line-height:28px;text-align:center;cursor:pointer;border-radius:4px;color:#fff;background:#007FFB;border-top:2px solid #0C5DF9;border-right:2px solid #0C5DF9;border-left:2px solid #1E90FF;border-bottom:2px solid #1E90FF;}
+		.bottom:active { border-top:2px solid #1E90FF;border-right:2px solid #1E90FF;border-left:2px solid #0C5DF9;border-bottom:2px solid #0C5DF9; }
+		.table{ width:1025px;height:400px;}
+		.aligning{float:left;}
+	</style>
+	
+</head>
+
+
+<body>  
+	<div style="width:100%;height:750px;;background:#fff;">
+		<div style="clear:bottom;height:70px;"></div>
+		<div style="width:1025px;height:220px;background:#fff;position:relative;">
+			<div style="clear:bottom;height:30px;"></div>
+			<div style="margin:0 auto;width:640px;height:30px;">
+				<div style="float:left;width:320px;text-align:right;height:30px;line-height:30px;"> Set home point: </div>
+				<div style="float:left;height:30px;width:80px;"></div>
+				<div class="bottom aligning" type="bottom" onclick="OnSetHomepoint()">HOME</div>
+			</div>
+			
+			<div style="clear:bottom;height:50px;"></div>
+			<div style="margin:0 auto;width:400px;height:30px;">
+				<div style="float:left;width:120px;text-align:right;height:30px;line-height:30px;"> Move Cmd: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<select style="width:184px;height:30px;float:left;"  id="id_MoveCmd">
+					<option value="continuemove">continuemove</option>
+					<option value="relativemove">relativemove</option>
+					<option value="absolutemove">absolutemove</option>
+				</select>
+			</div>
+			<div style="clear:bottom;height:30px;"></div>
+			<div style="margin:0 auto;width:700px;height:30px;">
+				<div style="float:left;width:120px;text-align:right;height:30px;line-height:30px;"> SpeedX: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:64px;height:24px;border-radius:4px;float:left;" value="10" maxlength="3" id="id_SpeedX"> </input>
+				<div style="float:left;width:120px;text-align:right;height:30px;line-height:30px;"> SpeedY: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:64px;height:24px;border-radius:4px;float:left;" value="10" maxlength="3" id="id_SpeedY"> </input>
+				<div style="float:left;width:120px;text-align:right;height:30px;line-height:30px;"> SpeedZ: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:64px;height:24px;border-radius:4px;float:left;" value="10" maxlength="3" id="id_SpeedZ"> </input>
+			</div>
+			<div style="clear:bottom;height:30px;"></div>
+			<div style="margin:0 auto;width:700px;height:30px;">
+				<div style="float:left;width:120px;text-align:right;height:30px;line-height:30px;"> PosX: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:64px;height:24px;border-radius:4px;float:left;" value="10" maxlength="4" id="id_PosX"> </input>
+				<div style="float:left;width:120px;text-align:right;height:30px;line-height:30px;"> PosY: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:64px;height:24px;border-radius:4px;float:left;" value="10" maxlength="4" id="id_PosY"> </input>
+				<div style="float:left;width:120px;text-align:right;height:30px;line-height:30px;"> PosZ: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:64px;height:24px;border-radius:4px;float:left;" value="10" maxlength="4" id="id_PosZ"> </input>
+			</div>
+
+			<div style="clear:bottom;height:40px;"></div>
+			<div style="margin:0 auto;width:440px;height:30px;">
+				<div class="bottom " type="bottom" onclick="OnSave('up')">UP</div>
+				<div style="clear:bottom;height:80px;"></div>
+				<div class="bottom aligning" type="bottom" onclick="OnSave('left')">LEFT</div>
+				<div style="float:left;height:1px;width:92px;"></div>
+				<div class="bottom aligning" type="bottom" onclick="OnSave('stop')">STOP</div>
+				<div style="float:left;height:1px;width:92px;"></div>
+				<div class="bottom aligning" type="bottom" onclick="OnSave('right')">RIGHT</div>
+				<div style="clear:bottom;height:100px;"></div>
+				<div class="bottom " type="bottom" onclick="OnSave('down')">DOWN</div>
+			</div>
+		</div>
+	</div>
+</body>   
+
+<script  type="text/javascript"> 
+function GetParam() {
+	if(parent.demo != undefined && parent.demo != "") {
+		parent.demo.GetMotionDetectionParam();
+	}
+}
+function SetParamToPage(obj) {
+	if(obj.status == 200) {
+		
+	}else {
+		console.log("ERROR["+obj.status+"]: get param error !");
+	}
+}
+
+
+function OnSave(operation) {
+	if( CheckNum("id_SpeedX") != true  ) {
+		alert("Speed X parameter input error , Only numbers can be entered !");return ;
+	}
+	if( parseInt($("#id_SpeedX").val()) > 800 || parseInt($("#id_SpeedX").val())< 0 ) {
+		alert("Speed X value is out of range !");return ;
+	}
+	if( CheckNum("id_SpeedY") != true  ) {
+		alert("Speed Y parameter input error , Only numbers can be entered !");return ;
+	}
+	if( parseInt($("#id_SpeedY").val()) > 800 || parseInt($("#id_SpeedY").val())< 0 ) {
+		alert("Speed Y value is out of range !");return ;
+	}
+	if( CheckNum("id_SpeedZ") != true  ) {
+		alert("Speed Z parameter input error , Only numbers can be entered !");return ;
+	}
+	if( parseInt($("#id_SpeedZ").val()) > 800 || parseInt($("#id_SpeedZ").val())< 0 ) {
+		alert("Speed Z value is out of range !");return ;
+	}
+	
+	if( CheckNum("id_PosX") != true  ) {
+		alert("Pos X parameter input error , Only numbers can be entered !");return ;
+	}
+	if( parseInt($("#id_PosX").val()) > 3200 || parseInt($("#id_PosX").val())< 0 ) {
+		alert("Pos X value is out of range !");return ;
+	}
+	if( CheckNum("id_PosY") != true  ) {
+		alert("Pos Y parameter input error , Only numbers can be entered !");return ;
+	}
+	if( parseInt($("#id_PosY").val()) > 3200 || parseInt($("#id_PosZ").val())< 0 ) {
+		alert("Pos Y value is out of range !");return ;
+	}
+	if( CheckNum("id_PosZ") != true  ) {
+		alert("Pos Z parameter input error , Only numbers can be entered !");return ;
+	}
+	if( parseInt($("#id_PosZ").val()) > 3200 || parseInt($("#id_PosZ").val())< 0 ) {
+		alert("Pos Z value is out of range !");return ;
+	}
+	var moveCmd = document.getElementById("id_MoveCmd").value;
+	var speedX = document.getElementById("id_SpeedX").value;
+	var speedY = document.getElementById("id_SpeedY").value;
+	var speedZ = document.getElementById("id_SpeedZ").value;
+	var posX = document.getElementById("id_PosX").value;
+	var posY = document.getElementById("id_PosY").value;
+	var posZ = document.getElementById("id_PosZ").value;
+	console.log(moveCmd+','+speedX+','+speedY+','+speedZ+','+posX+','+posY+','+posZ);
+
+	if(operation == "stop") {
+		moveCmd = "stop";
+		operation = "left";
+	}
+	var data = {
+		"movecmd" :moveCmd,
+		"direction": operation,
+		"speedx" :parseInt(speedX),
+		"speedy" :parseInt(speedY),
+		"speedz" :parseInt(speedZ),
+		"posx" :parseInt(posX),
+		"posy" :parseInt(posY),
+		"posz" :parseInt(posZ)
+    };
+	console.log(JSON.stringify(data));
+	if(parent.demo != undefined && parent.demo != "") {
+		parent.demo.SetPtzMove(data);
+	} else {
+		console.log("Not connected to the server or disconnected from the server !");
+		return ;
+	}
+}
+
+function OnSetHomepoint() {
+	if(parent.demo != undefined && parent.demo != "") {
+		parent.demo.SetPtzHomePoint();
+	} else {
+		console.log("Not connected to the server or disconnected from the server !");
+		return ;
+	}
+}
+
+$(function() {
+	var status = parent.demo.GetDeviceStatus();
+	if(status == "online") {
+		//GetParam();
+	} else {
+		alert("Please log on the device first !");
+	}
+});
+
+</script> 
+
+</html>  

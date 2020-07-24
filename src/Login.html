@@ -1,0 +1,118 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Web Camera</title>
+	<script src="jquery/jquery-1.9.1.min.js"></script>
+	<script src="js/check.js"></script>
+	
+
+	<style type="text/css">
+		.fixhei{ height:30px; float:left;};
+		.logindoc{ float:left;width:200px;text-align:right;float:left;}
+		.logininput{ margin-left:20px;float:left;width:200px;float:left; }
+		.bottom { margin:0 auto;width:80px;height:30px;line-height:28px;text-align:center;cursor:pointer;border-radius:4px;color:#fff;background:#007FFB;border-top:2px solid #0C5DF9;border-right:2px solid #0C5DF9;border-left:2px solid #1E90FF;border-bottom:2px solid #1E90FF;}
+		.bottom:active { border-top:2px solid #1E90FF;border-right:2px solid #1E90FF;border-left:2px solid #0C5DF9;border-bottom:2px solid #0C5DF9; }
+		.table{ width:1025px;height:400px;}
+		
+	</style>
+	
+</head>
+
+
+<body>  
+	<div style="width:100%;height:450px;;background:#fff;">
+		<div>
+			<!--<table class="table">
+				<thead>
+					<tr> 
+						<th>  Parameter Definition </th>
+						<th>  Parameter Description </th>
+						<th>  Parameter Ranges </th>
+						
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th>UUID</th>
+						<th>user ID</th>
+						<th>string, length<32</th>
+					</tr>
+					<tr>
+						<th>username</th>
+						<th>username</th>
+						<th>string, length<32</th>
+					</tr>
+					<tr>
+						<th>Password</th>
+						<th>Password</th>
+						<th>string, length<32</th>
+					</tr>
+					
+				</tbody>
+			</table>
+		</div>-->
+		<div style="clear:bottom;height:70px;"></div>
+		<div style="width:1025px;height:220px;background:#fff;position:relative;">
+			<div style="margin:0 auto;width:300px;height:30px;">
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> UUID: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:174px;height:24px;border-radius:4px;" value="INEW-000000-ABCDE" placeholder="user id" maxlength="32" id="id_Uuid"> </input>
+			</div>
+			
+			<div style="clear:bottom;height:20px;"></div>
+			<div style="margin:0 auto;width:300px;height:30px;">
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> Username: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:174px;height:24px;border-radius:4px;" value="admin" placeholder="username" maxlength="32" id="id_Username"> </input>
+			</div>
+			
+			<div style="clear:bottom;height:20px;"></div>
+			<div style="margin:0 auto;width:300px;height:30px;">
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> Password: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:174px;height:24px;border-radius:4px;" value="admin" placeholder="password" maxlength="32" id="id_Password"> </input>
+			</div>
+			
+			<div style="clear:bottom;height:40px;"></div>
+			<div class="bottom" type="bottom" id="id_Login" onclick="login()">Login</div>
+		</div>
+	</div>
+</body>   
+
+<script  type="text/javascript"> 
+function login() {
+	var uuid = document.getElementById("id_Uuid").value;
+	var username = document.getElementById("id_Username").value;
+	var password = document.getElementById("id_Password").value;
+	console.log(uuid +','+ username+','+password);
+	if(CheckIsChain("id_Uuid") != false || uuid.indexOf(" ") != -1) {
+		alert("user id parameter input error !");
+		return ;
+	}
+	if(CheckIsEnglishAndNumByValue("id_Username") != true || username == "") {
+		alert("username parameter input error !");
+		return ;
+	}
+	if(CheckIsEnglishAndNumByValue("id_Password") != true || username == "") {
+		alert("password parameter input error !");
+		return ;
+	}
+	console.log(parent);
+	if(typeof parent.demo !== "undefined" && parent.demo != "") {
+		if(parent.didStr !== "undefined") {
+			parent.didStr = uuid;
+		}
+		parent.demo.LoginDevice(uuid, username, password); //("INEW-006328-EVTCG", "admin", "admin") INEW-003910-JVTBZ
+	}
+}
+$(function() {
+	//console.log("parent did ==" + parent.didStr);
+	if(parent.didStr !== "undefined") {
+		document.getElementById("id_Uuid").value = parent.didStr;
+	}
+})
+
+</script> 
+
+</html>  

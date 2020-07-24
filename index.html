@@ -1,0 +1,167 @@
+﻿<!DOCTYPE >
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Web SDK</title>
+		<script src="src/jquery/jquery-1.9.1.min.js"></script>
+	<script src="src/jquery/json2.js"></script>
+	
+	<style type="text/css">
+		.container{ text-align:center; width:230px;height:800px;float:left; }
+		
+		.container ul{ list-style-type:none;width:230px;height:700px;text-align: left;margin-left:-40px;}
+		.container li{ list-style:none; height:30px; line-height:30px;padding-left:30px;}
+		
+		.headtab { width:100%;height:30px;text-align:left;font-size:20px;float:left; cursor:pointer;}
+		.headtab:hover { color:#1E90FF; }
+		.headfontcoloractive { color:#1E90FF; }
+		.headfontcoloronfocus { color:#000; }
+		.headbackground { background:url(./src/images/up.png)180px 9px no-repeat; }
+		.headselectbackground { background:url(./src/images/down.png)180px 9px no-repeat; }
+		.demoul { margin:2px 0; overflow-x:hidden; overflow-y:auto;position:absolute;cursor:pointer; }
+	</style>
+</head>
+
+<body style="background:#fff;"> 
+	<div style="width:100%;height:100%;background:#EDF4F4;overflow:hidden;">
+		<div style="width:100%;height:50px;background:#fff;border-bottom:2px solid #27D9CF;">
+			<div style="width:250px;margin:0 auto;text-align:conter;line-height:40px;font-size:20px;text-align:center;" id="id_Title">WEB SDK</div>
+		</div>
+		<div style="width:1310px;height:100%;margin: 0 auto;background:#fff;">
+			<div style="width:230px;height:100%;background:#EDF4F4;float:left;border-right:2px solid #27D9CF;"> 
+				<div style="border-bottom:1px solid #27D9CF;width:100%;height:50px;font-size:22px;line-height:46px;" >Operating Steps</div>
+				<div style="clear:bottom;width:1px;height:30px;"></div>
+				<div class="container"> 
+					<!--<div class="headtab headbackground" type="bottom" id="id_HeadDocument" onclick="OnclickDoc()">Operat Instruct</div>
+					<div style="clear:bottom;width:1px;height:30px;"></div>
+					<div style="display:block;" id="id_Document">
+						<ul> 
+							<li > <a target="_self" href="./x.html"> Aasdf SD <a></li>
+							<li > <a href="./x.html"> Aasdf SD <a> </li>
+							<li > <a href="./x.html"> Aasdf SD <a> </li>
+							<li > Demo文件结构</li>
+							
+						</ul>
+					</div>
+					<div style="clear:bottom;width:1px;height:20px;"></div>-->
+					<div class="headtab headselectbackground" type="bottom" id="id_HeadDemo" onclick="OnclickDemo()">SDK Demonstration</div>
+					<div style="clear:bottom;width:1px;height:30px;" ></div>
+					
+					<div style="display:none;" id="id_Demo">
+						<ul class="demoul"> 
+							<li id="id_Cmd0" onclick="OnclickDemoCmd(0)"> Login </li>
+							<li id="id_Cmd1" onclick="OnclickDemoCmd(1)"> DeviceInfo </li>  
+							<li id="id_Cmd2" onclick="OnclickDemoCmd(2)"> Operation </li>
+							<li id="id_Cmd3" onclick="OnclickDemoCmd(3)"> NtpParam </li>                        
+							<li id="id_Cmd4" onclick="OnclickDemoCmd(4)"> CurrentTime </li>                     
+							<li id="id_Cmd5" onclick="OnclickDemoCmd(5)"> UserInfo </li>                        
+							<li id="id_Cmd6" onclick="OnclickDemoCmd(6)"> VideoEncodeParam </li>    
+							<li id="id_Cmd7" onclick="OnclickDemoCmd(7)"> VideoEncodingCapability </li>  
+							<li id="id_Cmd8" onclick="OnclickDemoCmd(8)"> AudioEncodeParam </li>                
+							<li id="id_Cmd9" onclick="OnclickDemoCmd(9)"> ImagParam </li>                       
+							<li id="id_Cmd10" onclick="OnclickDemoCmd(10)"> OsdParam </li>                        
+							<li id="id_Cmd11" onclick="OnclickDemoCmd(11)"> MotionDetectionParam </li>            
+							<li id="id_Cmd12" onclick="OnclickDemoCmd(12)"> PullAlarm </li>                       
+							<li id="id_Cmd13" onclick="OnclickDemoCmd(13)"> PtzMoveCab </li>
+							<li id="id_Cmd14" onclick="OnclickDemoCmd(14)"> PtzMoveControl </li>
+							<li id="id_Cmd15" onclick="OnclickDemoCmd(15)"> PTZ Preset </li>
+							<li id="id_Cmd16" onclick="OnclickDemoCmd(16)"> PtzHomeEnable </li>
+							<li id="id_Cmd17" onclick="OnclickDemoCmd(17)"> ManualRecord </li>                    
+							<li id="id_Cmd18" onclick="OnclickDemoCmd(18)"> VideoQueryRequest </li>               
+							<li id="id_Cmd19" onclick="OnclickDemoCmd(19)"> RecordParam </li>                     
+							<li id="id_Cmd20" onclick="OnclickDemoCmd(20)"> AlarmLinkageParam </li>               
+							<li id="id_Cmd21" onclick="OnclickDemoCmd(21)"> NetWorkInfo </li>                     
+							<li id="id_Cmd22" onclick="OnclickDemoCmd(22)"> CurrentWifi </li>                     
+							<li id="id_Cmd23" onclick="OnclickDemoCmd(23)"> IrcutParam </li>                      
+							<li id="id_Cmd24" onclick="OnclickDemoCmd(24)"> Rtmp </li>                            
+							<li id="id_Cmd25" onclick="OnclickDemoCmd(25)"> Mqtt Server </li>                     
+							<li id="id_Cmd26" onclick="OnclickDemoCmd(26)"> SDcard </li>                          
+							<li id="id_Cmd27" onclick="OnclickDemoCmd(27)"> ImageParamCapability </li>            
+							<li id="id_Cmd28" onclick="OnclickDemoCmd(28)"> AudioOutVol </li>                     
+							<li id="id_Cmd29" onclick="OnclickDemoCmd(29)"> ScanWifi </li>                        
+							<li id="id_Cmd30" onclick="OnclickDemoCmd(30)"> RecordName </li>                      
+							<li id="id_Cmd31" onclick="OnclickDemoCmd(31)"> FtpUpdate </li>                       
+							<li id="id_Cmd32" onclick="OnclickDemoCmd(32)"> Logout </li>                        
+						</ul>                                         
+					</div>
+				</div>
+			</div>
+
+			<div style="width:1075px;height:100%;background:#fff;overflow:hidden;float:left;">
+				<iframe style="width:100%;height:100%;" frameborder="no" id="id_IframeDemo"></iframe>
+			</div>
+		</div>
+	</div>
+</body> 
+
+
+<script  type="text/javascript"> 
+
+$(function() {
+	OnclickDemo();
+});
+	var forbidOnclicCnt = false;//限制界面标签的点击频率
+	function OnclickDoc() {
+		$("#id_HeadDocument").removeClass("headfontcoloronfocus headselectbackground");
+		$("#id_HeadDocument").addClass("headfontcoloractive headbackground");
+
+		$("#id_HeadDemo").removeClass("headfontcoloractive headbackground");
+		$("#id_HeadDemo").addClass("headfontcoloronfocus headselectbackground");
+		
+		
+		//document.getElementById("id_Document").style.display = "block";
+		document.getElementById("id_Demo").style.display = "none";
+		
+		//关闭mqtt页面，打开文档页面
+		document.getElementById('id_IframeDemo').contentWindow.logout();
+		setTimeout(function(){document.getElementById("id_IframeDemo").src = "";},10);
+	}
+	function OnclickDemo() {
+		$("#id_HeadDemo").removeClass("headfontcoloronfocus headselectbackground");
+		$("#id_HeadDemo").addClass("headfontcoloractive headbackground");
+		
+		$("#id_HeadDocument").removeClass("headfontcoloractive headbackground");
+		$("#id_HeadDocument").addClass("headfontcoloronfocus headselectbackground");
+		
+		document.getElementById("id_Demo").style.display = "block";
+		//document.getElementById("id_Document").style.display = "none";
+		
+		//选择默认的
+		RemoveHighlightTab();
+		HighlightTab(0);
+		
+		//关闭文档页面 打开mqtt页面
+		document.getElementById("id_IframeDemo").src = "./src/Navigation.html";
+	}
+	
+	
+	var cmdCnt = 34;//命令数量
+	function RemoveHighlightTab() {//移除被选中的命令，移除高亮
+		for(var i = 0; i < cmdCnt; i++) {
+			$("#id_Cmd"+i).removeClass("headfontcoloractive");
+		}
+	}
+	function HighlightTab(index) {//设置高亮命令
+		$("#id_Cmd"+index).addClass("headfontcoloractive");
+		SetTitle(index);
+	}
+	
+	var timeOnclickNum = false;
+	
+	function OnclickDemoCmd(index) {//数据请求
+		
+		RemoveHighlightTab();
+		HighlightTab(index)
+		
+		if(document.getElementById('id_IframeDemo').contentWindow.MessageRequestedFun != undefined) {
+			document.getElementById('id_IframeDemo').contentWindow.MessageRequestedFun(index);
+		} else {
+			console.log("The page did not load compvare !");
+		}
+	}
+	function SetTitle(strindex) {
+		console.log(strindex);
+		document.getElementById("id_Title").innerHTML = document.getElementById("id_Cmd"+strindex).innerHTML;
+	}
+</script>
+</html> 

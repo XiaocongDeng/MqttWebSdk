@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Web Camera</title>
+	<script src="jquery/jquery-1.9.1.min.js"></script>
+	<script src="js/check.js"></script>
+
+	<style type="text/css">
+		.fixhei{ height:30px; float:left;};
+		.logindoc{ float:left;width:200px;text-align:right;float:left;}
+		.logininput{ margin-left:20px;float:left;width:200px;float:left; }
+		.bottom { margin:0 auto;width:80px;height:30px;line-height:28px;text-align:center;cursor:pointer;border-radius:4px;color:#fff;background:#007FFB;border-top:2px solid #0C5DF9;border-right:2px solid #0C5DF9;border-left:2px solid #1E90FF;border-bottom:2px solid #1E90FF;}
+		.bottom:active { border-top:2px solid #1E90FF;border-right:2px solid #1E90FF;border-left:2px solid #0C5DF9;border-bottom:2px solid #0C5DF9; }
+		.table{ width:1025px;height:400px;}
+	</style>
+	
+</head>
+
+
+<body>  
+	<div style="width:100%;height:400px;;background:#fff;">
+		<div>
+		<div style="clear:bottom;height:70px;"></div>
+		<div style="width:1025px;height:220px;background:#fff;position:relative;">
+			<div style="margin:0 auto;width:300px;height:30px;">
+				<div style="float:left;width:70px;text-align:right;height:30px;line-height:30px;"> Wifi list: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<textarea style="float:left;resize:none;width:222px;height:111px;margin-left:20px;" rows="3" cols="20" disabled="disabled" id="id_txt"></textarea>
+			</div>
+			<div style="clear:bottom;height:140px;"></div>
+			<div class="bottom" type="bottom" id="id_Login" onclick="OnSave()">Scan</div>
+		</div>
+	</div>
+</body>   
+
+<script  type="text/javascript"> 
+function GetParam() {
+	if(parent.demo != undefined && parent.demo != "") {
+		parent.demo.ScanWifi();
+	}
+}
+
+function SetParamToPage(obj) {
+	if(obj.status == 200) {
+		var txtStr = "";
+		$("#id_txt").val("");
+		for(var i = 0; i < obj.data.wifi.length; i++) {
+			if(obj.data.wifi[i].id != undefined) {
+				txtStr += (obj.data.wifi[i].id + ', ');
+			} else if(obj.data.wifi[i].ssid != undefined) {
+				txtStr += (obj.data.wifi[i].ssid + ', ');
+			}
+		}
+		console.log(txtStr);
+		$("#id_txt").val(txtStr);
+	}else {
+		console.log("ERROR["+obj.status+"]: get param error !");
+	}
+}
+
+function OnSave() {
+	
+	if(parent.demo != undefined && parent.demo != "") {
+		$("#id_txt").val("");
+		parent.demo.ScanWifi();
+	} else {
+		console.log("Not connected to the server or disconnected from the server !");
+		return ;
+	}
+}
+$(function() {
+	var status = parent.demo.GetDeviceStatus();
+	if(status == "online") {
+		GetParam();
+	} else {
+		alert("Please log on the device first !");
+	}
+});
+
+</script> 
+
+</html>  

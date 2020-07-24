@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Web Camera</title>
+	<script src="jquery/jquery-1.9.1.min.js"></script>
+	<script src="js/check.js"></script>
+
+	<style type="text/css">
+		.fixhei{ height:30px; float:left;};
+		.logindoc{ float:left;width:200px;text-align:right;float:left;}
+		.logininput{ margin-left:20px;float:left;width:200px;float:left; }
+		.bottom { margin:0 auto;width:80px;height:30px;line-height:28px;text-align:center;cursor:pointer;border-radius:4px;color:#fff;background:#007FFB;border-top:2px solid #0C5DF9;border-right:2px solid #0C5DF9;border-left:2px solid #1E90FF;border-bottom:2px solid #1E90FF;}
+		.bottom:active { border-top:2px solid #1E90FF;border-right:2px solid #1E90FF;border-left:2px solid #0C5DF9;border-bottom:2px solid #0C5DF9; }
+		.table{ width:1025px;height:400px;}
+	</style>
+	
+</head>
+
+
+<body>  
+	<div style="width:100%;height:400px;;background:#fff;">
+		<div>
+		<div style="clear:bottom;height:70px;"></div>
+		<div style="width:1025px;height:220px;background:#fff;position:relative;">
+			<div style="clear:bottom;height:20px;"></div>
+			<div style="margin:0 auto;width:300px;height:30px;">
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> Value: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:174px;height:24px;border-radius:4px;" value="0" id="id_Value"> </input>
+			</div>
+			
+			<div style="clear:bottom;height:40px;"></div>
+			<div class="bottom" type="bottom" id="id_Login" onclick="OnSave()">Submit</div>
+		</div>
+	</div>
+</body>   
+
+<script  type="text/javascript"> 
+function GetParam() {
+	if(parent.demo != undefined && parent.demo != "") {
+		parent.demo.GetAudioOutVol();
+	}
+}
+
+function SetParamToPage(obj) {
+	if(obj.status == 200) {
+		$("#id_Value").val(obj.data.vol);
+	}else {
+		console.log("ERROR["+obj.status+"]: get param error !");
+	}
+}
+
+function OnSave() {
+	if(CheckNum("id_Value") != true ) {
+		alert("parameter input error !");return ;
+	}
+	if( parseInt($("#id_Value").val())> 31 || parseInt($("#id_Value").val()) < 0 ) {
+		alert("Port value is out of range (0~31) !");return ;
+	}
+	var data = {
+		"vol" : parseInt($("#id_Value").val())
+	};
+	if(parent.demo != undefined && parent.demo != "") {
+		parent.demo.SetAudioOutVol(data);
+	} else {
+		console.log("Not connected to the server or disconnected from the server !");
+		return ;
+	}
+}
+$(function() {
+	var status = parent.demo.GetDeviceStatus();
+	if(status == "online") {
+		GetParam();
+	} else {
+		alert("Please log on the device first !");
+	}
+});
+
+</script> 
+
+</html>  

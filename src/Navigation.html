@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html >
+<html >
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Web Camera</title>
+	<script src="jquery/jquery-1.9.1.min.js"></script>
+	<script src="jquery/json2.js"></script>
+	<script src="js/gzmqtt.js"></script>
+	<script src="js/mqttws31.min.js"></script>
+	
+</head>
+
+<body>  
+	<div style="width:100%;height:100%;background:#fff;overflow:hidden;"> 
+			<iframe style="width:100%;min-height:900px;" frameborder="no" id="id_NavigationContent"></iframe>
+	</div>
+</body> 
+
+pares
+<script  type="text/javascript"> 
+var didStr = "INEW-000000-ABCDE";
+var NavigationPath = [
+	"Login.html","DeviceInfo.html","Operation.html","NtpParam.html","CurrentTime.html","UserInfo.html","VideoEncodeParam.html","VideoEncodingCapability.html","AudioEncodeParam.html",
+	"ImagParam.html","OsdParam.html","MotionDetectionParam.html","PullAlarm.html","PtzMoveCab.html","PtzMoveControl.html","PTZPreset.html","PtzHomeEnable.html","ManualRecord.html",
+	"VideoQueryRequest.html","RecordParam.html","AlarmLinkageParam.html","NetWorkInfo.html","CurrentWifi.html","IrcutParam.html",
+	"Rtmp.html","MqttServer.html","SDcard.html",
+	"ImageParamCapability.html","AudioOutVol.html","ScanWifi.html","RecordName.html",
+	"FtpUpdate.html","Logout.html"];
+
+function logout() {//设备 登出
+	if((undefined != demo) && ("" != demo)) {
+		demo.LogoutDevice();
+	}
+}
+
+function MessageRequestedFun(cmdIndex) {
+	console.log("cmd index == " + cmdIndex);
+	document.getElementById("id_NavigationContent").src = NavigationPath[cmdIndex];
+}
+function OnMessage(deviceID, obj) {
+	console.log(deviceID+','+JSON.stringify(obj));
+	if(obj.cmd == "login") {
+		if(obj.status == 200) {
+			alert("Login "+obj.msgid+" device successfully !" );
+		} else {
+			alert("Login "+obj.msgid+" device failed !" );
+		}
+		return ;
+	} else if(("getdeviceinfo" == obj.cmd) || ("getntpparam" == obj.cmd)|| ("getcurrenttime" == obj.cmd) || ("getuserinfo" == obj.cmd) || ("getvideoencodeparam" == obj.cmd) || 
+			  ("getaudioencodeparam" == obj.cmd) || ("getimagparam" == obj.cmd) || ("getvideoencodecab" == obj.cmd) || ("getosdparam" == obj.cmd) || 
+			  ("getmotiondetectparam" == obj.cmd) || ("pullalarm" == obj.cmd) || ("getptzmovecab" == obj.cmd) || ("getrecordinginfo" == obj.cmd) ||
+			  ("getrecordparam" == obj.cmd) || ("getalarmparam" == obj.cmd) || ("getnetworkinfo" == obj.cmd) || ("getwifiinfo" == obj.cmd) ||
+			  ("getircutparam" == obj.cmd) || ("getptzhomeenable" == obj.cmd) || ("getrtmpinfo" == obj.cmd) || ("getmqttserver" == obj.cmd) || 
+			  ("getsdcardparam" == obj.cmd) || ("getrecordname" == obj.cmd) || ("scanwifi" == obj.cmd) || ("getaudiooutvol" == obj.cmd) || 
+			  ("getimagcab" == obj.cmd) || ("getptzpreset" == obj.cmd) ) {
+		
+		if(undefined != document.getElementById('id_NavigationContent').contentWindow.SetParamToPage) {
+			document.getElementById('id_NavigationContent').contentWindow.SetParamToPage(obj);
+		}
+	} else if(("setntpparam" == obj.cmd) || ("setcurrenttime" == obj.cmd) || ("setosdparam" == obj.cmd) || ("setimagparam" == obj.cmd) || 
+			  ("setmotiondetectparam" == obj.cmd) || ("setmanualrecord" == obj.cmd)  || ("setrecordparam" == obj.cmd) || ("setalarmparam" == obj.cmd) || 
+			  ("setwifiinfo" == obj.cmd) || ("setircutparam" == obj.cmd) || ("setptzhomeenable" == obj.cmd) || ("setrtmpinfo" == obj.cmd) || 
+			  ("setmqttserver" == obj.cmd) || ("setsdcardformat" == obj.cmd) || ("setaudiooutvol" == obj.cmd)|| ("setptzhomepoint" == obj.cmd)) {
+		if(obj.status == 200) {
+			alert("set param successfully !");
+		} else {
+			
+			alert("["+JSON.stringify(obj.status)+"], set param failed !");
+		}
+	} 
+	else if("adduser" == obj.cmd) {
+		if(obj.status == 200) {
+			alert("add user successfully !");
+		} else {
+			alert("["+JSON.stringify(obj.status)+"], add user failed !");
+		}
+		demo.GetUserInfo();
+	} else if("deluser" == obj.cmd) {
+		if(obj.status == 200) {
+			alert("del user successfully !");
+		} else if(obj.status == 200) {
+			alert("Delete user failed , The user was not found !");
+		}else {
+			alert("["+JSON.stringify(obj.status)+"], delete user failed !");
+		}
+		demo.GetUserInfo();
+	} else if("modifyuserinfo" == obj.cmd) {
+		if(obj.status == 200) {
+			alert("modify user successfully !");
+		} else {
+			alert("["+JSON.stringify(obj.status)+"], modify user failed !");
+		}
+	}else if("operation" == obj.cmd) {
+		if(obj.status == 200) {
+			alert("operation successfully ,Device restarting, please log in again !");
+			MessageRequestedFun(0);parent.OnclickDemoCmd(0);
+		} else {
+			alert("["+JSON.stringify(obj.status)+"], modify user failed !");
+		}
+	}else if("ftpupdate" == obj.cmd) {
+		if(obj.status == 200) {
+			alert("update successfully !");
+		} else {
+			alert("["+JSON.stringify(obj.status)+"], update failed !");
+		}
+	}
+	else if("loginout" == obj.cmd) {
+		if(obj.status == 200) {
+			didStr = "INEW-000000-ABCDE";
+			alert("Logout of device successfully !");
+		} else {
+			alert("["+JSON.stringify(obj.status)+"], Logout of device failed !");
+		}
+	}
+}
+
+var demo = gzmqtt();  //gzmqtt();
+$(function() {
+	demo.InitClient({
+		host:"120.76.143.156",
+		port:8083,
+		onSuccess:function(){
+			console.log("onSuccess");
+		}, 
+		onConnectionLost:function(){
+			console.log("onConnectionLost");
+		},
+		onMessageArrived:function(deviceID, obj){
+			OnMessage(deviceID, obj);
+		},
+		keepaliveenable:true,//还没有测试
+		keepaliveinterval:120,
+		sslflag:false
+	});
+	console.log("navigation function");
+	document.getElementById("id_NavigationContent").src = NavigationPath[0];
+});
+
+</script>
+</html> 

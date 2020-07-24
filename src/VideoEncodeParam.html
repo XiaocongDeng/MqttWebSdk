@@ -1,0 +1,170 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Web Camera</title>
+	<script src="jquery/jquery-1.9.1.min.js"></script>
+	<script src="js/check.js"></script>
+
+	<style type="text/css">
+		.fixhei{ height:30px; float:left;};
+		.logindoc{ float:left;width:200px;text-align:right;float:left;}
+		.logininput{ margin-left:20px;float:left;width:200px;float:left; }
+		.bottom { margin:0 auto;width:80px;height:30px;line-height:28px;text-align:center;cursor:pointer;border-radius:4px;color:#fff;background:#007FFB;border-top:2px solid #0C5DF9;border-right:2px solid #0C5DF9;border-left:2px solid #1E90FF;border-bottom:2px solid #1E90FF;}
+		.bottom:active { border-top:2px solid #1E90FF;border-right:2px solid #1E90FF;border-left:2px solid #0C5DF9;border-bottom:2px solid #0C5DF9; }
+		.table{ width:1025px;height:400px;}
+	</style>
+	
+</head>
+
+
+<body>  
+	<div style="width:100%;height:750px;;background:#fff;">
+		<div>
+		<div style="clear:bottom;height:70px;"></div>
+		<div style="width:1025px;height:220px;background:#fff;position:relative;">
+			<div style="margin-left:100px;width:500px;height:30px;background:#D6EBFF;line-height:26px;">Click Get to Get the video encoding parameters of channel 0/1/2</div>
+			<div style="clear:bottom;height:30px;"></div>
+			<div style="margin:0 auto;width:300px;height:30px;">
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> Chn: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<select style="width:84px;height:24px;"  id="id_Chn">
+					<option value="0">0</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+				</select>
+			</div>
+			<div style="clear:bottom;height:40px;"></div>
+			<div class="bottom" type="bottom" id="id_Login" onclick="GetParam()">Get</div>
+			
+			
+			<div style="clear:bottom;height:70px;"></div>
+			<div style="margin-left:100px;width:610px;height:30px;background:#D6EBFF;line-height:26px;">The modified of video encoding parameters requires additional customization !</div>
+			<div style="clear:bottom;height:50px;"></div>
+			<div style="margin:0 auto;width:670px;height:30px;">
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> Chn: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:54px;height:24px;border-radius:4px;float:left;" value="0" disabled="disabled" maxlength="8" id="id_Chn1"> </input>
+				<div style="float:left;height:1px;width:60px;"></div>
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> Framerate: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:54px;height:24px;border-radius:4px;float:left;" value="0" disabled="disabled" maxlength="8" id="id_Framerate"> </input>
+				<div style="float:left;height:1px;width:60px;"></div>
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> Bitrate: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:64px;height:24px;border-radius:4px;float:left;" value="0" disabled="disabled" maxlength="8" id="id_Bitrate"> </input>
+			</div>
+			
+			<div style="clear:bottom;height:30px;"></div>
+			<div style="margin:0 auto;width:670px;height:30px;">
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> Quality: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:54px;height:24px;border-radius:4px;float:left;" value="0" disabled="disabled" maxlength="8" id="id_Quality"> </input>
+				<div style="float:left;height:1px;width:60px;"></div>
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> Gop: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:54px;height:24px;border-radius:4px;float:left;" value="0" disabled="disabled" maxlength="8" id="id_Gop"> </input>
+				<div style="float:left;height:1px;width:60px;"></div>
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> Cvbrmode: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:64px;height:24px;border-radius:4px;float:left;" value="0" disabled="disabled" maxlength="8" id="id_Cvbrmode"> </input>
+			</div>
+			
+			<div style="clear:bottom;height:30px;"></div>
+			<div style="margin:0 auto;width:670px;height:30px;">
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> Encoding: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:54px;height:24px;border-radius:4px;float:left;" value="0" disabled="disabled" maxlength="8" id="id_Encoding"> </input>
+				<div style="float:left;height:1px;width:60px;"></div>
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> H264profile: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:54px;height:24px;border-radius:4px;float:left;" value="0" disabled="disabled" maxlength="8" id="id_H264profile"> </input>
+				<div style="float:left;height:1px;width:60px;"></div>
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> resolution: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:64px;height:24px;border-radius:4px;float:left;" value="1920*1080" disabled="disabled" maxlength="8" id="id_Resolution"> </input>
+			</div>
+			
+		</div>
+	</div>
+</body>   
+
+<script  type="text/javascript"> 
+function GetParam() {
+	if(parent.demo != undefined && parent.demo != "") {
+		var data = {
+			"chn":parseInt($("#id_Chn").val())
+		};
+		parent.demo.GetVideoEncodeParam(data);
+	}
+}
+function SetParamToPage(obj) {
+	if(obj.status == 200) {
+		$("#id_Chn1").val(obj.data.chn);
+		$("#id_Framerate").val(obj.data.framerate);
+		$("#id_Bitrate").val(obj.data.bitrate);
+		$("#id_Quality").val(obj.data.quality);
+		$("#id_Gop").val(obj.data.gop);
+		$("#id_Cvbrmode").val(obj.data.cvbrmode);
+		$("#id_Encoding").val(obj.data.encoding);
+		$("#id_H264profile").val(obj.data.h264profile);
+		$("#id_Resolution").val(obj.data.resolution.width +"*"+ obj.data.resolution.height);
+		
+	}else {
+		console.log("ERROR["+obj.status+"]: get param error !");
+	}
+}
+function OnSave(operation) {
+	console.log(operation);
+	if(parent.demo == undefined || parent.demo == "") {
+		console.log("Not connected to the server or disconnected from the server !");
+		return ;
+	}
+	
+	if(operation == "add") {
+		if(CheckIsEnglishAndNum("id_AddPassword") != true ) {
+			alert("Add password parameter input error !");return;
+		}
+		if(CheckIsEnglishAndNum("id_AddUsername") != true ) {
+			alert("Add username parameter input error !");return;
+		}
+		var data = {
+			"username" : $("#id_AddUsername").val(),
+			"password":  $("#id_AddPassword").val(),
+			"level": 1		//The user level can only be 1
+		};
+		parent.demo.AddUser(data);
+	} else if(operation == "del") {
+		if(CheckIsEnglishAndNum("id_DelUsername") != true ) {
+			alert("Del username parameter input error !");return;
+		}
+		var data = {
+			"username" : $("#id_DelUsername").val()
+		};
+		parent.demo.DelUser(data);
+	} else if(operation == "mod") {
+		if(CheckIsEnglishAndNum("id_ModPassword") != true ) {
+			alert("Modify password parameter input error !");return;
+		}
+		if(CheckIsEnglishAndNum("id_ModUsername") != true ) {
+			alert("Modify username parameter input error !");return;
+		}
+		var data = {
+			"username" : $("#id_ModUsername").val(),
+			"password":  $("#id_ModPassword").val()
+		};
+		parent.demo.ModifyUserInfo(data);
+	}
+}
+$(function() {
+	var status = parent.demo.GetDeviceStatus();
+	if(status == "online") {
+		GetParam();
+	} else {
+		alert("Please log on the device first !");
+	}
+});
+
+</script> 
+
+</html>  

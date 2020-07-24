@@ -1,0 +1,159 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Web Camera</title>
+	<script src="jquery/jquery-1.9.1.min.js"></script>
+	<script src="js/check.js"></script>
+
+	<style type="text/css">
+		.fixhei{ height:30px; float:left;};
+		.logindoc{ float:left;width:200px;text-align:right;float:left;}
+		.logininput{ margin-left:20px;float:left;width:200px;float:left; }
+		.bottom { margin:0 auto;width:80px;height:30px;line-height:28px;text-align:center;cursor:pointer;border-radius:4px;color:#fff;background:#007FFB;border-top:2px solid #0C5DF9;border-right:2px solid #0C5DF9;border-left:2px solid #1E90FF;border-bottom:2px solid #1E90FF;}
+		.bottom:active { border-top:2px solid #1E90FF;border-right:2px solid #1E90FF;border-left:2px solid #0C5DF9;border-bottom:2px solid #0C5DF9; }
+		.table{ width:1025px;height:400px;}
+	</style>
+	
+</head>
+
+
+<body>  
+	<div style="width:100%;height:750px;;background:#fff;">
+		<div style="clear:bottom;height:70px;"></div>
+		<div style="width:1025px;height:220px;background:#fff;position:relative;">
+			<div style="clear:bottom;height:40px;"></div>
+			<div style="margin:0 auto;width:800px;height:30px;">
+				<div style="float:left;width:120px;text-align:right;height:30px;line-height:30px;"> Enable: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<select style="width:154px;height:30px;float:left;" id="id_Enable">
+					<option value="0">0</option>
+					<option value="1">1</option>
+				</select>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<div style="float:left;width:120px;text-align:right;height:30px;line-height:30px;"> Abr Enable: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<select style="width:154px;height:30px;" id="id_AbrEnable">
+					<option value="0">0</option>
+					<option value="1">1</option>
+				</select>
+			</div>
+			
+			<div style="clear:bottom;height:40px;"></div>
+			<div style="margin:0 auto;width:800px;height:30px;">
+				<div style="float:left;width:120px;text-align:right;height:30px;line-height:30px;"> Port: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:154px;height:24px;border-radius:4px;float:left;" value="0" id="id_Port"> </input>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<div style="float:left;width:120px;text-align:right;height:30px;line-height:30px;"> Chn: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<select style="width:154px;height:30px;" id="id_Chn">
+					<option value="11">11</option>
+					<option value="12">12</option>
+					<option value="13">13</option>
+				</select>
+			</div>
+			
+			<div style="clear:bottom;height:40px;"></div>
+			<div style="margin:0 auto;width:800px;height:30px;">
+				<div style="float:left;width:120px;text-align:right;height:30px;line-height:30px;"> Server Addr: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:154px;height:24px;border-radius:4px;float:left;" value="0" id="id_ServerAddr"> </input>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<div style="float:left;width:120px;text-align:right;height:30px;line-height:30px;"> Stream Url: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:154px;height:24px;border-radius:4px;float:left;" value="0"  id="id_StreamUrl"> </input>
+			</div>
+			
+			<div style="clear:bottom;height:40px;"></div>
+			<div style="margin:0 auto;width:800px;height:30px;">
+				<div style="float:left;width:120px;text-align:right;height:30px;line-height:30px;"> Username: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:154px;height:24px;border-radius:4px;float:left;" value="0" id="id_Username"> </input>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<div style="float:left;width:120px;text-align:right;height:30px;line-height:30px;"> Password: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:154px;height:24px;border-radius:4px;float:left;" value="0" id="id_Password"> </input>
+			</div>
+			
+			<div style="clear:bottom;height:40px;"></div>
+			<div class="bottom" type="bottom" onclick="OnSave()">Submit</div>
+			
+		</div>
+	</div>
+</body>   
+
+<script  type="text/javascript"> 
+function GetParam() {
+	if(parent.demo != undefined && parent.demo != "") {
+		parent.demo.GetRtmpInfo();
+	}
+}
+function SetParamToPage(obj) {
+	if(obj.status == 200) {
+		$("#id_Enable").val(obj.data.enable);
+		$("#id_AbrEnable").val(obj.data.abrenable);
+		$("#id_Port").val(obj.data.port);
+		$("#id_Chn").val(obj.data.chn);
+		$("#id_ServerAddr").val(obj.data.servaddr);
+		$("#id_StreamUrl").val(obj.data.streamurl);
+		$("#id_Username").val(obj.data.username);
+		$("#id_Password").val(obj.data.password);
+	}else {
+		console.log("ERROR["+obj.status+"]: get param error !");
+	}
+}
+function OnSave(operation) {
+	if(CheckNum("id_Port") != true || $("#id_Port").val().indexOf(" ") != -1) {
+		alert("Port parameter input error !");return;
+	}
+	if( parseInt($("#id_Port").val())> 65535 || parseInt($("#id_Port").val()) < 0 ) {
+		alert("Port value is out of range (1 ~ 65535)!");return ;
+	}
+	if(CheckIsChain("id_ServerAddr") != false || $("#id_ServerAddr").val().indexOf(" ") != -1 || $("#id_ServerAddr").val() == "") {
+		alert("Server Addr Server id parameter input error !");
+		return ;
+	}
+	if(CheckIsChain("id_StreamUrl") != false || $("#id_StreamUrl").val().indexOf(" ") != -1 || $("#id_StreamUrl").val() == "") {
+		alert("Stream Url Server id parameter input error !");
+		return ;
+	}
+	if(CheckIsEnglishAndNum("id_Username") == false || $("#id_Username").val() == "") {
+		alert("Username Server id parameter input error !");
+		return ;
+	}
+	if(CheckIsEnglishAndNum("id_Password") == false || $("#id_Password").val() == "" ) {
+		alert("Password Server id parameter input error !");
+		return ;
+	}
+
+	var data = {
+		"abrenable":parseInt($("#id_AbrEnable").val()),
+		"enable":parseInt($("#id_Enable").val()),
+		"port":parseInt($("#id_Port").val()),
+		"chn":parseInt($("#id_Chn").val()),
+		"servaddr":$("#id_ServerAddr").val(),
+		"streamurl":$("#id_StreamUrl").val(),
+		"username":$("#id_Username").val(),
+		"password":$("#id_Password").val()
+	}
+	console.log(JSON.stringify(data));
+	if(parent.demo != undefined && parent.demo != "") {
+		parent.demo.SetRtmpInfo(data);
+	} else {
+		console.log("Not connected to the server or disconnected from the server !");
+		return ;
+	}
+}
+$(function() {
+	var status = parent.demo.GetDeviceStatus();
+	if(status == "online") {
+		GetParam();
+	} else {
+		alert("Please log on the device first !");
+	}
+});
+
+</script> 
+
+</html>  

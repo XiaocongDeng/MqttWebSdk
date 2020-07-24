@@ -1,0 +1,210 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Web Camera</title>
+	<script src="jquery/jquery-1.9.1.min.js"></script>
+	<script src="js/check.js"></script>
+
+	<style type="text/css">
+		.fixhei{ height:30px; float:left;};
+		.logindoc{ float:left;width:200px;text-align:right;float:left;}
+		.logininput{ margin-left:20px;float:left;width:200px;float:left; }
+		.bottom { margin:0 auto;width:80px;height:30px;line-height:28px;text-align:center;cursor:pointer;border-radius:4px;color:#fff;background:#007FFB;border-top:2px solid #0C5DF9;border-right:2px solid #0C5DF9;border-left:2px solid #1E90FF;border-bottom:2px solid #1E90FF;}
+		.bottom:active { border-top:2px solid #1E90FF;border-right:2px solid #1E90FF;border-left:2px solid #0C5DF9;border-bottom:2px solid #0C5DF9; }
+		.table{ width:1025px;height:400px;}
+	</style>
+	
+</head>
+
+
+<body>  
+	<div style="width:100%;height:750px;;background:#fff;">
+		<div style="clear:bottom;height:70px;"></div>
+		<div style="width:1025px;height:220px;background:#fff;position:relative;">
+			<div style="margin:0 auto;width:800px;height:30px;">
+				<div style="float:left;width:130px;text-align:right;height:30px;line-height:30px;"> Homesupported: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<select style="width:84px;height:30px;float:left;" disabled="disabled" id="id_Homesupported">
+					<option value="0">0</option>
+					<option value="1">1</option>
+				</select>
+				<div style="float:left;height:1px;width:20px;"></div>
+				<div style="float:left;width:130px;text-align:right;height:30px;line-height:30px;" > Toursupported: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<select style="width:84px;height:30px;float:left;" disabled="disabled" id="id_Toursupported">
+					<option value="0">0</option>
+					<option value="1">1</option>
+				</select>
+				<div style="float:left;height:1px;width:20px;"></div>
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> Maxpreset: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:84px;height:24px;border-radius:4px;float:left;" disabled="disabled" value="text"  id="id_Maxpreset"> </input>
+			</div>
+			<div style="clear:bottom;height:40px;"></div>
+			<div style="margin-left:140px;width:150px;height:30px;background:#D6EBFF;line-height:26px;">Absolute Motion X</div>
+			<div style="clear:bottom;height:20px;"></div>
+			<div style="margin:0 auto;width:600px;height:30px;">
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> Min: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:84px;height:24px;border-radius:4px;float:left;" value="0" disabled="disabled" id="id_AbsoluteXMin"> </input>
+				<div style="float:left;height:1px;width:80px;"></div>
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> Max: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:84px;height:24px;border-radius:4px;float:left;" value="0" disabled="disabled" id="id_AbsoluteXMax"> </input>
+			</div>
+			<div style="clear:bottom;height:10px;"></div>
+			<div style="margin-left:140px;width:150px;height:30px;background:#D6EBFF;line-height:26px;">Absolute Motion Y</div>
+			<div style="clear:bottom;height:20px;"></div>
+			<div style="margin:0 auto;width:600px;height:30px;">
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> Min: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:84px;height:24px;border-radius:4px;float:left;" value="0" disabled="disabled" maxlength="64" id="id_AbsoluteYMin"> </input>
+				<div style="float:left;height:1px;width:80px;"></div>
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> Max: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:84px;height:24px;border-radius:4px;float:left;" value="0" disabled="disabled" maxlength="64" id="id_AbsoluteYMax"> </input>
+			</div>
+			<div style="clear:bottom;height:10px;"></div>
+			<div style="margin-left:140px;width:120px;height:30px;background:#D6EBFF;line-height:26px;">Absolute Zoom</div>
+			<div style="clear:bottom;height:30px;"></div>
+			<div style="margin:0 auto;width:600px;height:30px;">
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> Min: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:84px;height:24px;border-radius:4px;float:left;" value="0" disabled="disabled" maxlength="64" id="id_AbsoluteZoomMin"> </input>
+				<div style="float:left;height:1px;width:80px;"></div>
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> Max: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:84px;height:24px;border-radius:4px;float:left;" value="0" disabled="disabled" maxlength="64" id="id_AbsoluteZoomMax"> </input>
+			</div>
+			
+			<div style="clear:bottom;height:40px;"></div>
+			<div style="margin-left:140px;width:140px;height:30px;background:#D6EBFF;line-height:26px;">Relative Motion X</div>
+			<div style="clear:bottom;height:20px;"></div>
+			<div style="margin:0 auto;width:600px;height:30px;">
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> Min: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:84px;height:24px;border-radius:4px;float:left;" value="0" disabled="disabled" maxlength="64" id="id_RelativeXMin"> </input>
+				<div style="float:left;height:1px;width:80px;"></div>
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> Max: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:84px;height:24px;border-radius:4px;float:left;" value="0" disabled="disabled" maxlength="64" id="id_RelativeXMax"> </input>
+			</div>
+			<div style="clear:bottom;height:10px;"></div>
+			<div style="margin-left:140px;width:140px;height:30px;background:#D6EBFF;line-height:26px;">Relative Motion Y</div>
+			<div style="clear:bottom;height:20px;"></div>
+			<div style="margin:0 auto;width:600px;height:30px;">
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> Min: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:84px;height:24px;border-radius:4px;float:left;" value="0" disabled="disabled" maxlength="64" id="id_RelativeYMin"> </input>
+				<div style="float:left;height:1px;width:80px;"></div>
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> Max: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:84px;height:24px;border-radius:4px;float:left;" value="0" disabled="disabled" maxlength="64" id="id_RelativeYMax"> </input>
+			</div>
+			<div style="clear:bottom;height:10px;"></div>
+			<div style="margin-left:140px;width:120px;height:30px;background:#D6EBFF;line-height:26px;">Relative Zoom</div>
+			<div style="clear:bottom;height:30px;"></div>
+			<div style="margin:0 auto;width:600px;height:30px;">
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> Min: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:84px;height:24px;border-radius:4px;float:left;" value="0" disabled="disabled" maxlength="64" id="id_RelativeZoomMin"> </input>
+				<div style="float:left;height:1px;width:80px;"></div>
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> Max: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:84px;height:24px;border-radius:4px;float:left;" value="0" disabled="disabled" maxlength="64" id="id_RelativeZoomMax"> </input>
+			</div>
+			
+			<div style="clear:bottom;height:40px;"></div>
+			<div style="margin-left:140px;width:170px;height:30px;background:#D6EBFF;line-height:26px;">Continuous Motion X</div>
+			<div style="clear:bottom;height:20px;"></div>
+			<div style="margin:0 auto;width:600px;height:30px;">
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> Min: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:84px;height:24px;border-radius:4px;float:left;" value="0" disabled="disabled" maxlength="64" id="id_ContinuousXMin"> </input>
+				<div style="float:left;height:1px;width:80px;"></div>
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> Max: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:84px;height:24px;border-radius:4px;float:left;" value="0" disabled="disabled" maxlength="64" id="id_ContinuousXMax"> </input>
+			</div>
+			<div style="clear:bottom;height:10px;"></div>
+			<div style="margin-left:140px;width:170px;height:30px;background:#D6EBFF;line-height:26px;">Continuous Motion Y</div>
+			<div style="clear:bottom;height:20px;"></div>
+			<div style="margin:0 auto;width:600px;height:30px;">
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> Min: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:84px;height:24px;border-radius:4px;float:left;" value="0" disabled="disabled" maxlength="64" id="id_ContinuousYMin"> </input>
+				<div style="float:left;height:1px;width:80px;"></div>
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> Max: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:84px;height:24px;border-radius:4px;float:left;" value="0" disabled="disabled" maxlength="64" id="id_ContinuousYMax"> </input>
+			</div>
+			<div style="clear:bottom;height:10px;"></div>
+			<div style="margin-left:140px;width:140px;height:30px;background:#D6EBFF;line-height:26px;">Continuous Zoom</div>
+			<div style="clear:bottom;height:30px;"></div>
+			<div style="margin:0 auto;width:600px;height:30px;">
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> Min: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:84px;height:24px;border-radius:4px;float:left;" value="0" disabled="disabled" maxlength="64" id="id_ContinuousZoomMin"> </input>
+				<div style="float:left;height:1px;width:80px;"></div>
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> Max: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:84px;height:24px;border-radius:4px;float:left;" value="0" disabled="disabled" maxlength="64" id="id_ContinuousZoomMax"> </input>
+			</div>
+			
+			<div style="clear:bottom;height:40px;"></div>
+		</div>
+	</div>
+</body>   
+
+<script  type="text/javascript"> 
+function GetParam() {
+	if(parent.demo != undefined && parent.demo != "") {
+		parent.demo.GetPtzMoveCab();
+	}
+}
+function SetParamToPage(obj) {
+	if(obj.status == 200) {
+		$("#id_Maxpreset").val(obj.data.maxpreset);
+		$("#id_Homesupported").val(obj.data.homesupported);
+		$("#id_Toursupported").val(obj.data.toursupported);
+		  
+		$("#id_AbsoluteXMin").val(obj.data.absolutepos.x.min);
+		$("#id_AbsoluteXMax").val(obj.data.absolutepos.x.max);
+		$("#id_AbsoluteYMin").val(obj.data.absolutepos.y.min);
+		$("#id_AbsoluteYMax").val(obj.data.absolutepos.y.max);
+		$("#id_AbsoluteZoomMin").val(obj.data.absolutezoom.min);
+		$("#id_AbsoluteZoomMax").val(obj.data.absolutezoom.max);
+		     
+		$("#id_RelativeXMin").val(obj.data.relationpos.x.min);
+		$("#id_RelativeXMax").val(obj.data.relationpos.x.max);
+		$("#id_RelativeYMin").val(obj.data.relationpos.y.min);
+		$("#id_RelativeYMax").val(obj.data.relationpos.y.max);
+		$("#id_RelativeZoomMin").val(obj.data.relationzoom.min);
+		$("#id_RelativeZoomMax").val(obj.data.relationzoom.max);
+		          
+		$("#id_ContinuousXMin").val(obj.data.continuepos.x.min);
+		$("#id_ContinuousXMax").val(obj.data.continuepos.x.max);
+		$("#id_ContinuousYMin").val(obj.data.continuepos.y.min);
+		$("#id_ContinuousYMax").val(obj.data.continuepos.y.max);
+		$("#id_ContinuousZoomMin").val(obj.data.continuezoom.min);
+		$("#id_ContinuousZoomMax").val(obj.data.continuezoom.max);		
+	}else {
+		console.log("ERROR["+obj.status+"]: get param error !");
+	}
+}
+function OnSave(operation) {
+	
+}
+$(function() {
+	var status = parent.demo.GetDeviceStatus();
+	if(status == "online") {
+		GetParam();
+	} else {
+		alert("Please log on the device first !");
+	}
+});
+
+</script> 
+
+</html>  

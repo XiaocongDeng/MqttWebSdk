@@ -1,0 +1,190 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Web Camera</title>
+	<script src="jquery/jquery-1.9.1.min.js"></script>
+	<script src="js/check.js"></script>
+
+	<style type="text/css">
+		.fixhei{ height:30px; float:left;};
+		.logindoc{ float:left;width:200px;text-align:right;float:left;}
+		.logininput{ margin-left:20px;float:left;width:200px;float:left; }
+		.bottom { margin:0 auto;width:80px;height:30px;line-height:28px;text-align:center;cursor:pointer;border-radius:4px;color:#fff;background:#007FFB;border-top:2px solid #0C5DF9;border-right:2px solid #0C5DF9;border-left:2px solid #1E90FF;border-bottom:2px solid #1E90FF;}
+		.bottom:active { border-top:2px solid #1E90FF;border-right:2px solid #1E90FF;border-left:2px solid #0C5DF9;border-bottom:2px solid #0C5DF9; }
+		.align{float:left;}
+		thead{display:table; width:1025px;height:30px; }
+		thead tr{
+			display:block;
+			font-size:14px;
+			width:1025px;
+			height:30px;
+			color:#666;
+			font-family:Arial;
+			font-weight:normal;
+			text-align:center;
+			background:#F4F5F9;
+		}
+		thead tr th,tbody tr td{
+			width:200px;
+			height:30px;
+		}
+		
+		tbody {
+			display:block;
+			width:1025px;
+			height:400px;display: block;overflow-y:auto ;
+		}
+		tbody tr{/*派生选择器scroll*/
+			display:block;
+			font-size:14px;
+			width:1025px;
+			height:30px;
+			color:#666;
+			font-family:Arial;
+			text-align:center;
+			border-top:0 solid rgba(0,0,0,0.09);
+			border-bottom:2px solid rgba(0,0,0,0.09);
+			border-left:0 solid rgba(0,0,0,0.09);
+			border-right:0 solid rgba(0,0,0,0.09);
+			
+			background:#fff;
+		}
+	</style>
+	
+</head>
+
+
+<body>  
+	<div style="width:100%;height:750px;;background:#fff;">
+		<div style="clear:bottom;height:20px;"></div>
+		<div style="width:1025px;height:220px;background:#fff;position:relative;">
+			<div style="clear:bottom;height:30px;"></div>
+			<table >
+				<thead>
+					<tr style="height:30px;"> 
+						<th>Preset Name</th>
+						<th>Preset Id</th>
+						<th>Position X</th>
+						<th>Position Y</th>
+						<th>Position Z</th>
+					</tr>
+				</thead>
+				<tbody id="id_List" >
+					
+				</tbody>
+			</table>
+		</div>
+			<div style="clear:bottom;height:280px;"></div>
+			<div style="margin:0 auto;width:700px;height:30px;">
+				<input style="float:left;width:74px;height:24px;border-radius:4px;" title="Preset Id" placeholder="Preset Id" value=""  id="id_Goto"> </input>
+				<div style="float:left;height:1px;width:20px;"></div>
+				<div class="bottom align" type="bottom" onclick="OnSave('goto')">Goto </div>
+				<div style="float:left;height:1px;width:50px;"></div>
+				<input style="float:left;width:74px;height:24px;border-radius:4px;" title="Preset Id" placeholder="Preset Id" value=""  id="id_Move"> </input>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<div class="bottom align" type="bottom" onclick="OnSave('move')">Move</div>
+				<div style="float:left;height:1px;width:50px;"></div>
+				<input style="float:left;width:74px;height:24px;border-radius:4px;" title="Preset Name" placeholder="Preset Name" value=""  id="id_Add"> </input>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<div class="bottom align" type="bottom" onclick="OnSave('add')">Add</div>
+				<div style="float:left;height:1px;width:40px;"></div>
+			</div>
+		</div>
+	</div>
+</body>   
+
+<script  type="text/javascript"> 
+function GetParam() {
+	if(parent.demo != undefined && parent.demo != "") {
+		parent.demo.GetPtzPreset();
+	}
+}
+var ptzpresetnum = 0;
+function SetParamToPage(obj) {
+	if(obj.status == 200) {
+		RemoveAllPtzPreset();
+		ptzpresetnum = obj.data.presets.preset.length;
+		for(var i = 0; i < obj.data.presets.preset.length; i++) {
+			AppendeToPage(i,obj.data.presets.preset[i].presetname, obj.data.presets.preset[i].presetid, obj.data.presets.preset[i].position.x, obj.data.presets.preset[i].position.y, obj.data.presets.preset[i].position.z);
+		}
+	}else {
+		console.log("ERROR["+obj.status+"]: get param error !");
+	}
+}
+function OnSave(operation) {
+	if('goto'== operation) {
+		if( CheckNum("id_Goto") != true  ) {
+			alert("Goto parameter input error , numbers only!");return ;
+		}
+		var data = {
+			"presetid":$("#id_Goto").val()
+		};
+		if(parent.demo != undefined && parent.demo != "") {
+			parent.demo.GotoPtzPreset(data);
+		} else {
+			console.log("Not connected to the server or disconnected from the server !");
+			return ;
+		}
+	}else if('move'== operation) {
+		if( CheckNum("id_Move") != true  ) {
+			alert("Move parameter input error , numbers only !");return ;
+		}
+		var data = {
+			"presetid":$("#id_Move").val()
+		};
+		if(parent.demo != undefined && parent.demo != "") {
+			parent.demo.DeletePtzPreset(data);
+		} else {
+			console.log("Not connected to the server or disconnected from the server !");
+			return ;
+		}
+		parent.demo.GetPtzPreset();
+	}else if('add'== operation) {
+		if( CheckIsEnglishAndNum("id_Add") != true  || $("#id_Add").val() == "" || $("#id_Add").val().indexOf(" ") != -1) {
+			alert("Add parameter input error , English and numbers only !");return ;
+		}
+		var data = {
+			"presetname":$("#id_Add").val()
+		};
+		if(parent.demo != undefined && parent.demo != "") {
+			parent.demo.SetPtzPreset(data);
+		} else {
+			console.log("Not connected to the server or disconnected from the server !");
+			return ;
+		}
+		parent.demo.GetPtzPreset();
+	}
+}
+function RemoveAllPtzPreset() {
+
+	for(i=0; i<ptzpresetnum; i++) {
+		var listRow=document.getElementById("id_Tr"+i);
+		if(null != listRow) {
+			listRow.remove(listRow.divIndex);
+		}
+	}
+}
+function AppendeToPage(index,param1, param2, param3, param4, param5) {
+	var  appendStr = "";
+	appendStr += '<tr id="id_Tr'+index+'">';
+	appendStr += "	<td>"+param1+"</td>";
+	appendStr += "	<td>"+param2+"</td>";
+	appendStr += "	<td>"+param3+"</td>";
+	appendStr += "	<td>"+param4+"</td>";
+	appendStr += "	<td>"+param5+"</td>";
+	appendStr += "</tr>";
+	$("#id_List").append(appendStr);
+}
+$(function() {
+	var status = parent.demo.GetDeviceStatus();
+	if(status == "online") {
+		GetParam();
+	} else {
+		alert("Please log on the device first !");
+	}
+});
+
+</script> 
+
+</html>  

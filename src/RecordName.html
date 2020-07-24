@@ -1,0 +1,307 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Web Camera</title>
+	<script src="jquery/jquery-1.9.1.min.js"></script>
+	<script src="js/check.js"></script>
+
+	<style type="text/css">
+		.fixhei{ height:30px; float:left;};
+		.logindoc{ float:left;width:200px;text-align:right;float:left;}
+		.logininput{ margin-left:20px;float:left;width:200px;float:left; }
+		.bottom { margin:0 auto;width:80px;height:30px;line-height:28px;text-align:center;cursor:pointer;border-radius:4px;color:#fff;background:#007FFB;border-top:2px solid #0C5DF9;border-right:2px solid #0C5DF9;border-left:2px solid #1E90FF;border-bottom:2px solid #1E90FF;}
+		.bottom:active { border-top:2px solid #1E90FF;border-right:2px solid #1E90FF;border-left:2px solid #0C5DF9;border-bottom:2px solid #0C5DF9; }
+		.table{ width:1025px;height:400px;}
+	</style>
+	
+</head>
+
+
+<body>  
+	<div style="width:100%;height:400px;;background:#fff;">
+		<div>
+		<div style="clear:bottom;height:70px;"></div>
+		<div style="width:1025px;height:220px;background:#fff;position:relative;">
+			<div style="margin:0 auto;width:500px;height:30px;">
+				<div style="float:left;width:120px;text-align:right;height:30px;line-height:30px;"> Start Time: </div>
+				<div style="float:left;width:20px;text-align:center;height:30px;line-height:26px;"> </div>
+				<input style="width:45px;height:24px;border-radius:4px;float:left;" value="2000" maxlength="4" id="id_StartTimeYear"></input>
+				<div style="float:left;width:20px;text-align:center;height:30px;line-height:26px;">-</div>
+				<input style="width:25px;height:24px;border-radius:4px;float:left;" value="1" maxlength="2" id="id_StartTimeMonth"></input>
+				<div style="float:left;width:20px;text-align:center;height:30px;line-height:26px;">-</div>
+				<input style="width:25px;height:24px;border-radius:4px;float:left;" value="1" maxlength="2" id="id_StartTimeDay"></input>
+				<div style="float:left;width:20px;text-align:center;height:30px;line-height:26px;"> </div>
+				<input style="width:25px;height:24px;border-radius:4px;float:left;" value="00" maxlength="2" id="id_StartTimeHour"></input>
+				<div style="float:left;width:20px;text-align:center;height:30px;line-height:26px;">:</div>
+				<input style="width:25px;height:24px;border-radius:4px;float:left;" value="00" maxlength="2" id="id_StartTimeMin"></input>
+				<div style="float:left;width:20px;text-align:center;height:30px;line-height:26px;">:</div>
+				<input style="width:25px;height:24px;border-radius:4px;float:left;" value="00" maxlength="2" id="id_StartTimeSec"></input>
+			</div>
+			
+			<div style="clear:bottom;height:30px;"></div>
+			<div style="margin:0 auto;width:500px;height:30px;">
+				<div style="float:left;width:120px;text-align:right;height:30px;line-height:30px;"> End Time: </div>
+				<div style="float:left;width:20px;text-align:center;height:30px;line-height:26px;"> </div>
+				<input style="width:45px;height:24px;border-radius:4px;float:left;" value="2000" maxlength="4" id="id_EndTimeYear"></input>
+				<div style="float:left;width:20px;text-align:center;height:30px;line-height:26px;">-</div>
+				<input style="width:25px;height:24px;border-radius:4px;float:left;" value="1" maxlength="2" id="id_EndTimeMonth"></input>
+				<div style="float:left;width:20px;text-align:center;height:30px;line-height:26px;">-</div>
+				<input style="width:25px;height:24px;border-radius:4px;float:left;" value="1" maxlength="2" id="id_EndTimeDay"></input>
+				<div style="float:left;width:20px;text-align:center;height:30px;line-height:26px;"> </div>
+				<input style="width:25px;height:24px;border-radius:4px;float:left;" value="00" maxlength="2" id="id_EndTimeHour"></input>
+				<div style="float:left;width:20px;text-align:center;height:30px;line-height:26px;">:</div>
+				<input style="width:25px;height:24px;border-radius:4px;float:left;" value="00" maxlength="2" id="id_EndTimeMin"></input>
+				<div style="float:left;width:20px;text-align:center;height:30px;line-height:26px;">:</div>
+				<input style="width:25px;height:24px;border-radius:4px;float:left;" value="00" maxlength="2" id="id_EndTimeSec"></input>
+			</div>
+			
+			<div style="clear:bottom;height:30px;"></div>
+			<div style="margin:0 auto;width:380px;height:30px;">
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> Name: </div>
+				<div style="float:left;height:1px;width:20px;"></div>
+				<textarea style="float:left;resize:none;width:222px;height:111px;margin-left:20px;" rows="3" cols="20" disabled="disabled" id="id_txt"></textarea>
+			</div>
+			<div style="clear:bottom;height:140px;"></div>
+			<div class="bottom" type="bottom" id="id_Login" onclick="OnSave()">Get</div>
+		</div>
+	</div>
+</body>   
+
+<script  type="text/javascript"> 
+function GetParam() {
+	if(parent.demo != undefined && parent.demo != "") {
+		var startTime = new Date();
+		var data = {
+			"starttime":startTime.getFullYear()+""+(startTime.getMonth()+1)+""+startTime.getDate()+"000000",
+			"endtime":startTime.getFullYear()+""+(startTime.getMonth()+1)+""+(startTime.getDate()+1)+"000000"
+		};
+		parent.demo.GetRecordName(data);
+	}
+}
+
+function SetParamToPage(obj) {
+	console.log(JSON.stringify(obj));
+	if(obj.status == 200) {
+		if(undefined != obj.data){
+			if(undefined != obj.data.starttime && "" != obj.data.starttime) {
+				$("#id_StartTimeYear").val(obj.data.starttime.substr(0,4));
+				$("#id_StartTimeMonth").val(obj.data.starttime.substr(4,2));
+				$("#id_StartTimeDay").val(obj.data.starttime.substr(6,2));
+				$("#id_StartTimeHour").val(obj.data.starttime.substr(8,2));
+				$("#id_StartTimeMin").val(obj.data.starttime.substr(10,2));
+				$("#id_StartTimeSec").val(obj.data.starttime.substr(12,2));
+			}
+			if(undefined != obj.data.endtime && "" != obj.data.endtime) {
+				$("#id_EndTimeYear").val(obj.data.endtime.substr(0,4));
+				$("#id_EndTimeMonth").val(obj.data.endtime.substr(4,2));
+				$("#id_EndTimeDay").val(obj.data.endtime.substr(6,2));
+				$("#id_EndTimeHour").val(obj.data.endtime.substr(8,2));
+				$("#id_EndTimeMin").val(obj.data.endtime.substr(10,2));
+				$("#id_EndTimeSec").val(obj.data.endtime.substr(12,2));
+			}
+			if(undefined != obj.data.recordname && "" != obj.data.recordname) {
+				var txtStr = "";
+				for(var i = 0; i < obj.data.recordname.length; i++) {
+					txtStr += (obj.data.recordname[i].filename + ', ');
+				}
+				console.log(txtStr);
+				$("#id_txt").val(txtStr);
+			} else {
+				$("#id_txt").val("NULL");
+			}
+		} else {
+			$("#id_txt").val("NULL");
+		}
+	}else {
+		console.log("ERROR["+obj.status+"]: get param error !");
+	}
+}
+
+function OnSave() {
+	$("#id_txt").val("");
+	var data = {
+		"starttime" : GetStartTimeStr(),
+		"endtime" : GetEndTimeStr()
+	};
+	if(parent.demo != undefined && parent.demo != "") {
+		parent.demo.GetRecordName(data);
+	} else {
+		console.log("Not connected to the server or disconnected from the server !");
+		return ;
+	}
+}
+$(function() {
+	
+	var status = parent.demo.GetDeviceStatus();
+	if(status == "online") {
+		GetParam();
+	} else {
+		alert("Please log on the device first !");
+	}
+	
+});
+
+function GetStartTimeStr() {
+	var startTimeStr = "";   
+	if( CheckNum1("id_StartTimeYear") != true  ) {
+		alert("Start Year parameter input error , Only numbers can be entered !");return ;
+	}
+	if( CheckNum1("id_StartTimeMonth") != true  ) {
+		alert("Start Month parameter input error , Only numbers can be entered !");return ;
+	}
+	if( CheckNum1("id_StartTimeDay") != true  ) {
+		alert("Start Sec parameter input error , Only numbers can be entered !");return ;
+	}
+	if( CheckNum1("id_StartTimeHour") != true  ) {
+		alert("Start Hour parameter input error , Only numbers can be entered !");return ;
+	}
+	if( CheckNum1("id_StartTimeMin") != true  ) {
+		alert("Start Min parameter input error , Only numbers can be entered !");return ;
+	}
+	if( CheckNum1("id_StartTimeSec") != true  ) {
+		alert("Start Sec parameter input error , Only numbers can be entered !");return ;
+	}
+	
+	//if( parseInt($("#id_StartTimeYear").val())>= 24 || parseInt($("#id_StartTimeYear").val())<0 ) {
+	//	alert("Start Hour value is out of range !");return ;
+	//}
+	if( parseInt($("#id_StartTimeMonth").val())> 12 || parseInt($("#id_StartTimeMonth").val())<1 ) {
+		alert("Start Month value is out of range !");return ;
+	}
+	if( parseInt($("#id_StartTimeDay").val())> 31 || parseInt($("#id_StartTimeDay").val())<1 ) {
+		alert("Start Day value is out of range !");return ;
+	}
+	if( parseInt($("#id_StartTimeHour").val())>= 24 || parseInt($("#id_StartTimeHour").val())<0 ) {
+		alert("Start Hour value is out of range !");return ;
+	}
+	if( parseInt($("#id_StartTimeMin").val())>= 60 || parseInt($("#id_StartTimeMin").val())<0 ) {
+		alert("Start Min value is out of range !");return ;
+	}
+	if( parseInt($("#id_StartTimeSec").val())>= 60 || parseInt($("#id_StartTimeSec").val())<0 ) {
+		alert("Start Sec value is out of range !");return ;
+	}
+	
+	//console.log('year =='+parseInt($("#id_StartTimeYear").val())+',moth=='+parseInt($("#id_StartTimeMonth").val())+',day=='+parseInt($("#id_StartTimeDay").val())+',hour=='+parseInt($("#id_StartTimeHour").val())+',min=='+parseInt($("#id_StartTimeMin").val())+',sec=='+parseInt($("#id_StartTimeSec").val()));
+	if(parseInt($("#id_StartTimeYear").val()) < 10) {
+		startTimeStr = "0"+parseInt($("#id_StartTimeYear").val());
+	}else if(parseInt($("#id_StartTimeYear").val()) < 100 && parseInt($("#id_StartTimeYear").val()) >= 10) {
+		startTimeStr = "00"+parseInt($("#id_StartTimeYear").val());
+	}else if(parseInt($("#id_StartTimeYear").val()) < 1000 && parseInt($("#id_StartTimeYear").val()) >= 10) {
+		startTimeStr = "000"+parseInt($("#id_StartTimeYear").val());
+	} else {
+		startTimeStr = parseInt($("#id_StartTimeYear").val())+'';
+	}
+	
+	if(parseInt($("#id_StartTimeMonth").val()) < 10) {
+		startTimeStr += "0"+parseInt($("#id_StartTimeMonth").val());
+	}else {
+		startTimeStr += parseInt($("#id_StartTimeMonth").val())+"";
+	}
+	if(parseInt($("#id_StartTimeDay").val()) < 10) {
+		startTimeStr += "0"+parseInt($("#id_StartTimeDay").val());
+	}else {
+		startTimeStr += parseInt($("#id_StartTimeDay").val())+"";
+	}
+	if(parseInt($("#id_StartTimeHour").val()) < 10) {
+		startTimeStr += "0"+parseInt($("#id_StartTimeHour").val());
+	}else {
+		startTimeStr += parseInt($("#id_StartTimeHour").val())+"";
+	}
+	if(parseInt($("#id_StartTimeMin").val()) < 10) {
+		startTimeStr += "0"+parseInt($("#id_StartTimeMin").val());
+	}else {
+		startTimeStr += parseInt($("#id_StartTimeMin").val())+"";
+	}
+	if(parseInt($("#id_StartTimeSec").val()) < 10) {
+		startTimeStr += "0"+parseInt($("#id_StartTimeSec").val());
+	}else {
+		startTimeStr += parseInt($("#id_StartTimeSec").val())+"";
+	}
+	console.log(startTimeStr);
+	return startTimeStr;
+}
+
+function GetEndTimeStr() {
+	var startTimeStr = "";   
+	if( CheckNum1("id_EndTimeYear") != true  ) {
+		alert("Start Year parameter input error , Only numbers can be entered !");return ;
+	}
+	if( CheckNum1("id_EndTimeMonth") != true  ) {
+		alert("Start Month parameter input error , Only numbers can be entered !");return ;
+	}
+	if( CheckNum1("id_EndTimeDay") != true  ) {
+		alert("Start Sec parameter input error , Only numbers can be entered !");return ;
+	}
+	if( CheckNum1("id_EndTimeHour") != true  ) {
+		alert("Start Hour parameter input error , Only numbers can be entered !");return ;
+	}
+	if( CheckNum1("id_EndTimeMin") != true  ) {
+		alert("Start Min parameter input error , Only numbers can be entered !");return ;
+	}
+	if( CheckNum1("id_EndTimeSec") != true  ) {
+		alert("Start Sec parameter input error , Only numbers can be entered !");return ;
+	}
+	
+	//if( parseInt($("#id_EndTimeYear").val())>= 24 || parseInt($("#id_EndTimeYear").val())<0 ) {
+	//	alert("Start Hour value is out of range !");return ;
+	//}
+	if( parseInt($("#id_EndTimeMonth").val())> 12 || parseInt($("#id_EndTimeMonth").val())<1 ) {
+		alert("Start Month value is out of range !");return ;
+	}
+	if( parseInt($("#id_EndTimeDay").val())> 31 || parseInt($("#id_EndTimeDay").val())<1 ) {
+		alert("Start Day value is out of range !");return ;
+	}
+	if( parseInt($("#id_EndTimeHour").val())>= 24 || parseInt($("#id_EndTimeHour").val())<0 ) {
+		alert("Start Hour value is out of range !");return ;
+	}
+	if( parseInt($("#id_EndTimeMin").val())>= 60 || parseInt($("#id_EndTimeMin").val())<0 ) {
+		alert("Start Min value is out of range !");return ;
+	}
+	if( parseInt($("#id_EndTimeSec").val())>= 60 || parseInt($("#id_EndTimeSec").val())<0 ) {
+		alert("Start Sec value is out of range !");return ;
+	}
+	
+	if(parseInt($("#id_EndTimeYear").val()) < 10) {
+		startTimeStr = "0"+parseInt($("#id_EndTimeYear").val());
+	}else if(parseInt($("#id_EndTimeYear").val()) < 100 && parseInt($("#id_EndTimeYear").val()) >= 10) {
+		startTimeStr = "00"+parseInt($("#id_EndTimeYear").val());
+	}else if(parseInt($("#id_EndTimeYear").val()) < 1000 && parseInt($("#id_EndTimeYear").val()) >= 10) {
+		startTimeStr = "000"+parseInt($("#id_EndTimeYear").val());
+	} else {
+		startTimeStr = parseInt($("#id_EndTimeYear").val())+'';
+	}
+	
+	if(parseInt($("#id_EndTimeMonth").val()) < 10) {
+		startTimeStr += "0"+parseInt($("#id_EndTimeMonth").val());
+	}else {
+		startTimeStr += parseInt($("#id_EndTimeMonth").val())+"";
+	}
+	if(parseInt($("#id_EndTimeDay").val()) < 10) {
+		startTimeStr += "0"+parseInt($("#id_EndTimeDay").val());
+	}else {
+		startTimeStr += parseInt($("#id_EndTimeDay").val())+"";
+	}
+	if(parseInt($("#id_EndTimeHour").val()) < 10) {
+		startTimeStr += "0"+parseInt($("#id_EndTimeHour").val());
+	}else {
+		startTimeStr += parseInt($("#id_EndTimeHour").val())+"";
+	}
+	if(parseInt($("#id_EndTimeMin").val()) < 10) {
+		startTimeStr += "0"+parseInt($("#id_EndTimeMin").val());
+	}else {
+		startTimeStr += parseInt($("#id_EndTimeMin").val())+"";
+	}
+	if(parseInt($("#id_EndTimeSec").val()) < 10) {
+		startTimeStr += "0"+parseInt($("#id_EndTimeSec").val());
+	}else {
+		startTimeStr += parseInt($("#id_EndTimeSec").val())+"";
+	}
+	console.log(startTimeStr);
+	return startTimeStr;
+}
+
+
+</script> 
+
+</html>  

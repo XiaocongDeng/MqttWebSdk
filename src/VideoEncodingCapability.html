@@ -1,0 +1,203 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Web Camera</title>
+	<script src="jquery/jquery-1.9.1.min.js"></script>
+	<script src="js/check.js"></script>
+
+	<style type="text/css">
+		.fixhei{ height:30px; float:left;};
+		.logindoc{ float:left;width:200px;text-align:right;float:left;}
+		.logininput{ margin-left:20px;float:left;width:200px;float:left; }
+		.bottom { margin:0 auto;width:80px;height:30px;line-height:28px;text-align:center;cursor:pointer;border-radius:4px;color:#fff;background:#007FFB;border-top:2px solid #0C5DF9;border-right:2px solid #0C5DF9;border-left:2px solid #1E90FF;border-bottom:2px solid #1E90FF;}
+		.bottom:active { border-top:2px solid #1E90FF;border-right:2px solid #1E90FF;border-left:2px solid #0C5DF9;border-bottom:2px solid #0C5DF9; }
+		.table{ width:1025px;height:400px;}
+	</style>
+	
+</head>
+
+
+<body>  
+	<div style="width:100%;height:750px;;background:#fff;">
+		<div>
+		<div style="clear:bottom;height:70px;"></div>
+		<div style="width:1025px;height:220px;background:#fff;position:relative;">
+			<div style="margin-left:100px;width:550px;height:30px;background:#D6EBFF;line-height:26px;">Click the Get button to Get the video encoding level of 0/1/2 channel !</div>
+			<div style="clear:bottom;height:30px;"></div>
+			<div style="margin:0 auto;width:300px;height:30px;">
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> Chn: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<select style="width:84px;height:24px;"  id="id_Chn">
+					<option value="0">0</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+				</select>
+			</div>
+			<div style="clear:bottom;height:40px;"></div>
+			<div class="bottom" type="bottom" id="id_Login" onclick="GetParam()">Get</div>
+			
+			
+			<div style="clear:bottom;height:70px;"></div>
+			<div style="margin-left:100px;width:480px;height:30px;background:#D6EBFF;line-height:26px;">Modified video encoding capability levels are not supported !</div>
+			<div style="clear:bottom;height:50px;"></div>
+			
+			<div style="margin:0 auto;width:600px;text-align:left;height:30px;line-height:30px;">Framerate</div>
+			<div style="clear:bottom;height:10px;"></div>
+			<div style="margin:0 auto;width:550px;height:30px;">
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> Max: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:54px;height:24px;border-radius:4px;float:left;" value="0" disabled="disabled" maxlength="8" id="id_FramerateMax"> </input>
+				<div style="float:left;height:1px;width:80px;"></div>
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> Min: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:54px;height:24px;border-radius:4px;float:left;" value="0" disabled="disabled" maxlength="8" id="id_FramerateMin"> </input>
+			</div>
+			<div style="clear:bottom;height:20px;"></div>
+			
+			<div style="margin:0 auto;width:600px;text-align:left;height:30px;line-height:30px;">Bitrate</div>
+			<div style="clear:bottom;height:10px;"></div>
+			<div style="margin:0 auto;width:550px;height:30px;">
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> Max: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:54px;height:24px;border-radius:4px;float:left;" value="0" disabled="disabled" maxlength="8" id="id_BitrateMax"> </input>
+				<div style="float:left;height:1px;width:80px;"></div>
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> Min: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:54px;height:24px;border-radius:4px;float:left;" value="0" disabled="disabled" maxlength="8" id="id_BitrateMin"> </input>
+			</div>
+			<div style="clear:bottom;height:20px;"></div>
+			
+			<div style="margin:0 auto;width:600px;text-align:left;height:30px;line-height:30px;">Quality</div>
+			<div style="clear:bottom;height:10px;"></div>
+			<div style="margin:0 auto;width:550px;height:30px;">
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> Max: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:54px;height:24px;border-radius:4px;float:left;" value="0" disabled="disabled" maxlength="8" id="id_QualityMax"> </input>
+				<div style="float:left;height:1px;width:80px;"></div>
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> Min: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:54px;height:24px;border-radius:4px;float:left;" value="0" disabled="disabled" maxlength="8" id="id_QualityMin"> </input>
+			</div>
+			<div style="clear:bottom;height:20px;"></div>
+			
+			<div style="margin:0 auto;width:600px;text-align:left;height:30px;line-height:30px;">Gop</div>
+			<div style="clear:bottom;height:10px;"></div>
+			<div style="margin:0 auto;width:550px;height:30px;">
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> Max: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:54px;height:24px;border-radius:4px;float:left;" value="0" disabled="disabled" maxlength="8" id="id_GopMax"> </input>
+				<div style="float:left;height:1px;width:80px;"></div>
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> Min: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:54px;height:24px;border-radius:4px;float:left;" value="0" disabled="disabled" maxlength="8" id="id_GopMin"> </input>
+			</div>
+			<div style="clear:bottom;height:20px;"></div>
+			
+			<div style="margin:0 auto;width:600px;text-align:left;height:30px;line-height:30px;">Encoding</div>
+			<div style="clear:bottom;height:10px;"></div>
+			<div style="margin:0 auto;width:450px;height:30px;">
+				<input style="margin:0 auto;width:350px;height:24px;border-radius:4px;float:left;" value="0" disabled="disabled"  id="id_Encoding"> </input>
+			</div>
+			<div style="clear:bottom;height:20px;"></div>
+			
+			<div style="margin:0 auto;width:600px;text-align:left;height:30px;line-height:30px;">H264profile</div>
+			<div style="clear:bottom;height:10px;"></div>
+			<div style="margin:0 auto;width:450px;height:30px;">
+				<input style="margin:0 auto;width:350px;height:24px;border-radius:4px;float:left;" value="0" disabled="disabled"  id="id_H264profile"> </input>
+			</div>
+			<div style="clear:bottom;height:20px;"></div>
+			
+			<div style="margin:0 auto;width:600px;text-align:left;height:30px;line-height:30px;">resolution</div>
+			<div style="clear:bottom;height:10px;"></div>
+			<div style="margin:0 auto;width:550px;height:30px;">
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> Wigth: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:254px;height:24px;border-radius:4px;float:left;" value="0" disabled="disabled" maxlength="8" id="id_resolutionWigth"> </input>
+			</div>
+			<div style="clear:bottom;height:10px;"></div>
+			<div style="margin:0 auto;width:550px;height:30px;">
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> Height: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:254px;height:24px;border-radius:4px;float:left;" value="0" disabled="disabled" maxlength="8" id="id_resolutionHeight"> </input>
+			</div>
+			<div style="clear:bottom;height:40px;"></div>
+		</div>
+	</div>
+</body>   
+
+<script  type="text/javascript"> 
+function GetParam() {
+	if(parent.demo != undefined && parent.demo != "") {
+		var data = {
+			"chn":parseInt($("#id_Chn").val())
+		};
+		parent.demo.GetVideoEncodeCab(data);
+	}
+}
+function SetParamToPage(obj) {
+	if(obj.status == 200) {
+		$("#id_FramerateMin").val(obj.data.frameraterange.max);
+		$("#id_FramerateMax").val(obj.data.frameraterange.min);
+		$("#id_BitrateMax").val(obj.data.bitraterange.max);
+		$("#id_BitrateMin").val(obj.data.bitraterange.min);
+		$("#id_QualityMin").val(obj.data.qualityrange.max);
+		$("#id_QualityMax").val(obj.data.qualityrange.min);
+		$("#id_GopMin").val(obj.data.goprange.max);
+		$("#id_GopMax").val(obj.data.goprange.min);
+		var tmpStr = "";
+		for(var i = 0; i < obj.data.encodingcab.length; i++){
+			tmpStr += obj.data.encodingcab[i];
+			if(i == obj.data.encodingcab.length-1) {
+				break ;
+			} else {
+				tmpStr += ', ';
+			}
+		}
+		$("#id_Encoding").val(tmpStr);
+		
+		tmpStr = "";
+		for(var i = 0; i < obj.data.h264profilecab.length; i++){
+			tmpStr += obj.data.h264profilecab[i];
+			if(i == obj.data.h264profilecab.length-1) {
+				break ;
+			} else {
+				tmpStr += ', ';
+			}
+		}
+		$("#id_H264profile").val(tmpStr);
+		
+		tmpStr = "";
+		var tmpStr1 = "";
+		for(var i = 0; i < obj.data.resolutionsupport.length; i++){
+			tmpStr += obj.data.resolutionsupport[i].wigth;
+			tmpStr1 += obj.data.resolutionsupport[i].height;
+			if(i == obj.data.resolutionsupport.length-1) {
+				break ;
+			} else {
+				tmpStr += ', ';tmpStr1 += ', ';
+			}
+		}
+		console.log(tmpStr +', '+tmpStr1)
+		$("#id_resolutionWigth").val(tmpStr);
+		$("#id_resolutionHeight").val(tmpStr1);
+		
+	}else {
+		console.log("ERROR["+obj.status+"]: get param error !");
+	}
+}
+function OnSave(operation) {
+	
+}
+$(function() {
+	var status = parent.demo.GetDeviceStatus();
+	if(status == "online") {
+		GetParam();
+	} else {
+		alert("Please log on the device first !");
+	}
+});
+
+</script> 
+
+</html>  

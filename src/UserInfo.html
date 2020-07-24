@@ -1,0 +1,175 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Web Camera</title>
+	<script src="jquery/jquery-1.9.1.min.js"></script>
+	<script src="js/check.js"></script>
+
+	<style type="text/css">
+		.fixhei{ height:30px; float:left;};
+		.logindoc{ float:left;width:200px;text-align:right;float:left;}
+		.logininput{ margin-left:20px;float:left;width:200px;float:left; }
+		.bottom { margin:0 auto;width:80px;height:30px;line-height:28px;text-align:center;cursor:pointer;border-radius:4px;color:#fff;background:#007FFB;border-top:2px solid #0C5DF9;border-right:2px solid #0C5DF9;border-left:2px solid #1E90FF;border-bottom:2px solid #1E90FF;}
+		.bottom:active { border-top:2px solid #1E90FF;border-right:2px solid #1E90FF;border-left:2px solid #0C5DF9;border-bottom:2px solid #0C5DF9; }
+		.table{ width:1025px;height:400px;}
+	</style>
+	
+</head>
+
+
+<body>  
+	<div style="width:100%;height:750px;;background:#fff;">
+		<div>
+		<div style="clear:bottom;height:70px;"></div>
+		<div style="width:1025px;height:220px;background:#fff;position:relative;">
+			<div style="margin:0 auto;width:500px;height:30px;">UserInfo:</div>
+			<div style="margin:0 auto;width:300px;height:60px;">
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> Username: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<textarea style="resize:none;width:300px;height:60px;float:left;" rows="3" cols="20" id="id_InfoUsername" disabled="disabled"></textarea>
+			</div>
+			
+			<div style="clear:bottom;height:40px;"></div>
+			<div style="margin:0 auto;width:500px;height:30px;">User Operation:</div>
+			<div style="clear:bottom;height:20px;"></div>
+			<div style="margin:0 auto;width:300px;height:30px;">
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> Username: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:174px;height:24px;border-radius:4px;" value="ABCD" placeholder="username" maxlength="32" id="id_AddUsername"> </input>
+			</div>
+			<div style="clear:bottom;height:20px;"></div>
+			<div style="margin:0 auto;width:300px;height:30px;">
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> Password: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:174px;height:24px;border-radius:4px;" value="ABCD" placeholder="password" maxlength="32" id="id_AddPassword"> </input>
+			</div>
+			<div style="clear:bottom;height:40px;"></div>
+			<div class="bottom" type="bottom" id="id_Login" onclick="OnSave('add')">ADD</div>
+			
+			<div style="clear:bottom;height:40px;"></div>
+			<div style="margin:0 auto;width:300px;height:30px;">
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> Username: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:174px;height:24px;border-radius:4px;" value="ABCD" placeholder="username" maxlength="32" id="id_DelUsername"> </input>
+			</div>
+			<div style="clear:bottom;height:40px;"></div>
+			<div class="bottom" type="bottom" id="id_Login" onclick="OnSave('del')">DEL</div>
+			
+			<div style="clear:bottom;height:40px;"></div>
+			<div style="margin:0 auto;width:300px;height:30px;">
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> Username: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:174px;height:24px;border-radius:4px;" value="ABCD" placeholder="username" maxlength="32" id="id_ModUsername"> </input>
+			</div>
+			<div style="clear:bottom;height:20px;"></div>
+			<div style="margin:0 auto;width:300px;height:30px;">
+				<div style="float:left;width:80px;text-align:right;height:30px;line-height:30px;"> Password: </div>
+				<div style="float:left;height:1px;width:40px;"></div>
+				<input style="width:174px;height:24px;border-radius:4px;" value="ABCD" placeholder="password" maxlength="32" id="id_ModPassword"> </input>
+			</div>
+			<div style="clear:bottom;height:40px;"></div>
+			<div class="bottom" type="bottom" id="id_Login" onclick="OnSave('mod')">MODIFY</div>
+		</div>
+	</div>
+</body>   
+
+<script  type="text/javascript"> 
+function GetParam() {
+	if(parent.demo != undefined && parent.demo != "") {
+		parent.demo.GetUserInfo();
+	}
+}
+
+function SetParamToPage(obj) {
+	if(obj.status == 200) {//"data":{"userinfo":[{"username":"admin","level":2},{"username":"gzroot@u","level":4},{"username":"gzuser@u","level":5}]}
+		console.log(obj.data.userinfo.length);
+		if(obj.data.userinfo.length > 0) {
+			var userStr = "";
+			for(var i = 0; i < obj.data.userinfo.length; i++) {
+				userStr += obj.data.userinfo[i].username;
+				if(i == obj.data.userinfo.length-1) {
+					userStr += ".";
+					break;
+				} else {
+					userStr += ", ";
+				}
+				
+			}
+			console.log(userStr);
+			$("#id_InfoUsername").val(userStr);
+			return ;
+		} else {
+			$("#id_InfoUsername").val("Not User");
+			return ;
+		}
+	}else {
+		console.log("ERROR["+obj.status+"]: get param error !");
+	}
+}
+
+function OnSave(operation) {
+	console.log(operation);
+	if(parent.demo == undefined || parent.demo == "") {
+		console.log("Not connected to the server or disconnected from the server !");
+		return ;
+	}
+	
+	if(operation == "add") {
+		console.log(CheckIsEnglishAndNum("id_AddPassword"));
+		console.log($("#id_AddPassword").val().indexOf(" "));
+		console.log($("#id_AddPassword") == "");
+		
+		if($("#id_AddPassword").val() == "") {
+			alert("Add password parameter input error !");return;
+		}
+		if($("#id_AddUsername") == "") {
+			alert("Add username parameter input error !");return;
+		}
+		
+		if(CheckIsEnglishAndNum("id_AddPassword") != true || $("#id_AddPassword").val().indexOf(" ") != -1 || $("#id_AddPassword").val() == "") {
+			alert("Add password parameter input error !");return;
+		}
+		if(CheckIsEnglishAndNum("id_AddUsername") != true || $("#id_AddUsername").val().indexOf(" ") != -1 || $("#id_AddUsername").val(). == "") {
+			alert("Add username parameter input error !");return;
+		}
+		var data = {
+			"username" : $("#id_AddUsername").val(),
+			"password":  $("#id_AddPassword").val(),
+			"level": 1		//The user level can only be 1
+		};
+		parent.demo.AddUser(data);
+	} else if(operation == "del") {
+		if(CheckIsEnglishAndNum("id_DelUsername") != true || $("#id_DelUsername").val().indexOf(" ") != -1 || $("#id_DelUsername").val() == "") {
+			alert("Del username parameter input error !");return;
+		}
+		var data = {
+			"username" : $("#id_DelUsername").val()
+		};
+		parent.demo.DelUser(data);
+	} else if(operation == "mod") {
+		if(CheckIsEnglishAndNum("id_ModPassword") != true || $("#id_ModPassword").val().indexOf(" ") != -1 || $("#id_ModPassword").val() == "") {
+			alert("Modify password parameter input error !");return;
+		}
+		if(CheckIsEnglishAndNum("id_ModUsername") != true || $("#id_ModUsername").val().indexOf(" ") != -1 || $("#id_ModUsername").val() == "") {
+			alert("Modify username parameter input error !");return;
+		}
+		var data = {
+			"username" : $("#id_ModUsername").val(),
+			"password":  $("#id_ModPassword").val()
+		};
+		parent.demo.ModifyUserInfo(data);
+	}
+}
+$(function() {
+	var status = parent.demo.GetDeviceStatus();
+	if(status == "online") {
+		GetParam();
+	} else {
+		alert("Please log on the device first !");
+	}
+});
+
+</script> 
+
+</html>  
